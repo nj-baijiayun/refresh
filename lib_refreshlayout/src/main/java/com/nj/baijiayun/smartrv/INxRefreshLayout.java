@@ -6,9 +6,9 @@ package com.nj.baijiayun.smartrv;
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
  * @package_name com.nj.baijiayun.helper
- * @describe
+ * @describe 刷新view基本的功能
  */
-public interface NxRefreshLayout {
+public interface INxRefreshLayout {
 
     /**
      * 设置加载更多
@@ -16,7 +16,7 @@ public interface NxRefreshLayout {
      * @param enabled true
      * @return NxRefreshLayout
      */
-    NxRefreshLayout setEnableLoadMore(boolean enabled);
+    INxRefreshLayout setEnableLoadMore(boolean enabled);
 
     /**
      * 设置刷新可用
@@ -24,7 +24,7 @@ public interface NxRefreshLayout {
      * @param enabled false
      * @return NxRefreshLayout
      */
-    NxRefreshLayout setEnableRefresh(boolean enabled);
+    INxRefreshLayout setEnableRefresh(boolean enabled);
 
     /**
      * 设置刷新或者加载更多
@@ -32,7 +32,7 @@ public interface NxRefreshLayout {
      * @param nxOnRefreshListener n
      * @return NxRefreshLayout
      */
-    NxRefreshLayout setOnRefreshLoadMoreListener(NxOnRefreshListener nxOnRefreshListener);
+    INxRefreshLayout setOnRefreshLoadMoreListener(INxOnRefreshListener nxOnRefreshListener);
 
 
     /**
@@ -40,13 +40,13 @@ public interface NxRefreshLayout {
      *
      * @return NxRefreshLayout
      */
-    NxRefreshLayout finishRefresh();
+    INxRefreshLayout finishRefresh();
 
     /**
      * 完成加载更多
      *
      * @return NxRefreshLayout
      */
-    NxRefreshLayout finishLoadMore();
+    INxRefreshLayout finishLoadMore();
 
 }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-   <com.nj.baijiayun.smartrv.NxRefreshView
+   <com.baijiayun.MyRefresh
        android:id="@+id/nxRv"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>

@@ -5,10 +5,13 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.FrameLayout;
 
 import com.nj.baijiayun.SmartRefreshLayout;
+import com.nj.baijiayun.smartrv.strategy.DefaultExtra;
+import com.nj.baijiayun.smartrv.strategy.NxSmartRefreshLayoutStrategy;
 
 
 /**
@@ -17,9 +20,9 @@ import com.nj.baijiayun.SmartRefreshLayout;
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
  * @package_name com.nj.baijiayun.helper
- * @describe
+ * @describe 刷新View
  */
-public class NxRefreshView extends RelativeLayout implements NxRefreshLayout, IRecycleViewInterface {
+public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRecycleViewInterface, INxRefreshInterface {
 
     private RecyclerView mRecyclerView;
     private RefreshViewProxy mProxy;
@@ -43,53 +46,53 @@ public class NxRefreshView extends RelativeLayout implements NxRefreshLayout, IR
 
     }
 
-    public void initView() throws Exception {
-        SmartRefreshLayout mSmartRefreshLayout = new SmartRefreshLayout(getContext());
-        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        mSmartRefreshLayout.setLayoutParams(params);
+    private void initView() throws Exception {
+
+        ViewGroup refreshLayoutView = createRefreshLayoutView();
+        mProxy = new RefreshViewProxy(createStrategy(this, refreshLayoutView), refreshLayoutView);
+        LayoutParams params = new LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        refreshLayoutView.setLayoutParams(params);
         mRecyclerView = new RecyclerView(getContext());
         mRecyclerView.setLayoutParams(params);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        addView(mSmartRefreshLayout);
-        mSmartRefreshLayout.addView(mRecyclerView);
-        mProxy = new RefreshViewProxy(this, mSmartRefreshLayout);
-        setEnableRefresh(true);
+        addView(refreshLayoutView);
+        refreshLayoutView.addView(mRecyclerView);
+        initExtra();
 
-        NxRefreshConfig nxRefreshConfig = NxRefreshConfig.get();
-        if (nxRefreshConfig != null) {
-            setExtra(nxRefreshConfig.getDefaultExtra());
-        }
 
     }
 
 
     @Override
-    public NxRefreshLayout setEnableLoadMore(boolean enabled) {
+    public INxRefreshLayout setEnableLoadMore(boolean enabled) {
         return mProxy.setEnableLoadMore(enabled);
     }
 
     @Override
-    public NxRefreshLayout setEnableRefresh(boolean enabled) {
+    public INxRefreshLayout setEnableRefresh(boolean enabled) {
         return mProxy.setEnableRefresh(enabled);
     }
 
     @Override
-    public NxRefreshLayout setOnRefreshLoadMoreListener(NxOnRefreshListener nxOnRefreshListener) {
+    public INxRefreshLayout setOnRefreshLoadMoreListener(INxOnRefreshListener nxOnRefreshListener) {
         return mProxy.setOnRefreshLoadMoreListener(nxOnRefreshListener);
     }
 
     @Override
-    public NxRefreshLayout finishRefresh() {
+    public INxRefreshLayout finishRefresh() {
         return mProxy.finishRefresh();
     }
 
     @Override
-    public NxRefreshLayout finishLoadMore() {
+    public INxRefreshLayout finishLoadMore() {
         return mProxy.finishLoadMore();
     }
 
+    public RecyclerView.Adapter getAdapter() {
+        return mAdapter;
+    }
 
-    public RecyclerView getmRecyclerView() {
+    public RecyclerView getRecyclerView() {
         return mRecyclerView;
     }
 
@@ -119,20 +122,42 @@ public class NxRefreshView extends RelativeLayout implements NxRefreshLayout, IR
         mRecyclerView.setItemAnimator(animator);
     }
 
+    @Override
     public void notifyDataSetChanged() {
         if (this.mAdapter != null) {
             this.mAdapter.notifyDataSetChanged();
         }
     }
 
-    public RecyclerView.Adapter getAdapter() {
-        return mAdapter;
-    }
 
     @Override
     public void setSpanSizeLookup(GridLayoutManager.SpanSizeLookup spanSizeLookup) {
         if (mRecyclerView.getLayoutManager() instanceof GridLayoutManager) {
             ((GridLayoutManager) mRecyclerView.getLayoutManager()).setSpanSizeLookup(spanSizeLookup);
         }
+    }
+
+    @Override
+    public ViewGroup createRefreshLayoutView() {
+        return new SmartRefreshLayout(getContext());
+    }
+
+    @Override
+    public INxRefreshLayoutStrategy createStrategy(INxRefreshLayout iNxRefreshLayout, View refreshView) {
+        return new NxSmartRefreshLayoutStrategy(iNxRefreshLayout, refreshView);
+    }
+
+
+    @Override
+    public void initExtra() {
+        setEnableRefresh(true);
+        NxRefreshConfig nxRefreshConfig = NxRefreshConfig.get();
+        if (nxRefreshConfig != null) {
+            setExtra(nxRefreshConfig.getDefaultExtra());
+        } else {
+            setExtra(new DefaultExtra());
+        }
+
+
     }
 }

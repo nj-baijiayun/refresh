@@ -6,9 +6,9 @@ import android.view.View;
 import com.nj.baijiayun.SmartRefreshLayout;
 import com.nj.baijiayun.api.RefreshLayout;
 import com.nj.baijiayun.listener.OnRefreshLoadMoreListener;
-import com.nj.baijiayun.smartrv.NxOnRefreshListener;
-import com.nj.baijiayun.smartrv.NxRefreshLayout;
-import com.nj.baijiayun.smartrv.NxRefreshLayoutStrategy;
+import com.nj.baijiayun.smartrv.INxOnRefreshListener;
+import com.nj.baijiayun.smartrv.INxRefreshLayout;
+import com.nj.baijiayun.smartrv.INxRefreshLayoutStrategy;
 
 /**
  * @author chengang
@@ -18,48 +18,44 @@ import com.nj.baijiayun.smartrv.NxRefreshLayoutStrategy;
  * @package_name com.nj.baijiayun.helper
  * @describe
  */
-public class NxSmartRefreshLayoutStrategy implements NxRefreshLayoutStrategy {
+public class NxSmartRefreshLayoutStrategy implements INxRefreshLayoutStrategy {
 
 
     private SmartRefreshLayout smartRefreshLayout;
-    private NxRefreshLayout nxRefreshLayout;
+    private INxRefreshLayout nxRefreshLayout;
 
 
-    public NxSmartRefreshLayoutStrategy(NxRefreshLayout nxRefreshLayout, View view) throws Exception {
+    public NxSmartRefreshLayoutStrategy(INxRefreshLayout nxRefreshLayout, View view) {
         this.nxRefreshLayout = nxRefreshLayout;
-        if (view instanceof SmartRefreshLayout) {
-            this.smartRefreshLayout = (SmartRefreshLayout) view;
-        } else {
-            throw new Exception("Please check your View is SmartRefreshLayout");
-
-        }
+        this.smartRefreshLayout = (SmartRefreshLayout) view;
 
     }
 
     @Override
-    public NxRefreshLayout setEnableLoadMore(boolean enable) {
+    public INxRefreshLayout setEnableLoadMore(boolean enable) {
         this.smartRefreshLayout.setEnableLoadMore(enable);
         return this;
     }
 
     @Override
-    public NxRefreshLayout setEnableRefresh(boolean enable) {
+    public INxRefreshLayout setEnableRefresh(boolean enable) {
         this.smartRefreshLayout.setEnableRefresh(enable);
         return this;
 
     }
 
-
     @Override
-    public NxRefreshLayout setOnRefreshLoadMoreListener(final NxOnRefreshListener nxOnRefreshListener) {
+    public INxRefreshLayout setOnRefreshLoadMoreListener(final INxOnRefreshListener nxOnRefreshListener) {
         this.smartRefreshLayout.setOnRefreshLoadMoreListener(new OnRefreshLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                //务必需要回调出去
                 nxOnRefreshListener.onLoadMore(nxRefreshLayout);
             }
 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                //务必需要回调出去
                 nxOnRefreshListener.onRefresh(nxRefreshLayout);
             }
         });
@@ -68,14 +64,14 @@ public class NxSmartRefreshLayoutStrategy implements NxRefreshLayoutStrategy {
     }
 
     @Override
-    public NxRefreshLayout finishRefresh() {
+    public INxRefreshLayout finishRefresh() {
         this.smartRefreshLayout.finishRefresh();
         return this;
 
     }
 
     @Override
-    public NxRefreshLayout finishLoadMore() {
+    public INxRefreshLayout finishLoadMore() {
         this.smartRefreshLayout.finishLoadMore();
         return this;
     }

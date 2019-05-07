@@ -15,8 +15,8 @@ public interface INxExtra {
     /**
      * 设置额外的属性
      *
-     * @param view v
+     * @param refreshLayoutView v
      */
-    void setExtra(View view);
+    void setExtra(View refreshLayoutView);
 
 }

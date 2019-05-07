@@ -21,14 +21,14 @@ import com.nj.baijiayun.smartrv.INxExtra;
 public class DefaultExtra implements INxExtra {
 
     @Override
-    public void setExtra(View view) {
-        if (view instanceof SmartRefreshLayout) {
-            Context context = view.getContext();
-            ((SmartRefreshLayout) view).setRefreshHeader(new WaterDropHeader(view.getContext()));
-            ((SmartRefreshLayout) view).setRefreshFooter(new BallPulseFooter(context).setSpinnerStyle(SpinnerStyle.Scale));
-            ((SmartRefreshLayout) view).setEnableFooterTranslationContent(true);
-            ((SmartRefreshLayout) view).setEnableHeaderTranslationContent(true);
-            ((SmartRefreshLayout) view).setPrimaryColorsId(android.R.color.black);
+    public void setExtra(View refreshLayoutView) {
+        if (refreshLayoutView instanceof SmartRefreshLayout) {
+            Context context = refreshLayoutView.getContext();
+            ((SmartRefreshLayout) refreshLayoutView).setRefreshHeader(new WaterDropHeader(refreshLayoutView.getContext()));
+            ((SmartRefreshLayout) refreshLayoutView).setRefreshFooter(new BallPulseFooter(context).setSpinnerStyle(SpinnerStyle.Scale));
+            ((SmartRefreshLayout) refreshLayoutView).setEnableFooterTranslationContent(true);
+            ((SmartRefreshLayout) refreshLayoutView).setEnableHeaderTranslationContent(true);
+            ((SmartRefreshLayout) refreshLayoutView).setPrimaryColorsId(android.R.color.black);
         }
     }
 }

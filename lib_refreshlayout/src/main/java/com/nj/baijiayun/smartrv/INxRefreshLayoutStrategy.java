@@ -2,12 +2,11 @@ package com.nj.baijiayun.smartrv;
 
 /**
  * @author chengang
- * @date 2019/5/6
+ * @date 2019/5/7
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
- * @package_name com.nj.baijiayun.helper
+ * @package_name com.nj.baijiayun.smartrv
  * @describe
  */
-public interface NxRefreshLayoutStrategy extends NxRefreshLayout {
-
+public interface INxRefreshLayoutStrategy extends INxRefreshLayout {
 }

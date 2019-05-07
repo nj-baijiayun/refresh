@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
  */
 public interface IRecycleViewInterface {
 
+
     void setAdapter(RecyclerView.Adapter adaper);
 
     void setLayoutManager(RecyclerView.LayoutManager layout);
@@ -22,6 +23,8 @@ public interface IRecycleViewInterface {
     void setItemAnimator(RecyclerView.ItemAnimator animator);
 
     void setSpanSizeLookup(GridLayoutManager.SpanSizeLookup spanSizeLookup);
+
+    void notifyDataSetChanged();
 
 
 }

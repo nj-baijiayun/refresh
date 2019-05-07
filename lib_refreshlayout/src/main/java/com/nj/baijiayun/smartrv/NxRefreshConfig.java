@@ -8,7 +8,7 @@ import com.nj.baijiayun.smartrv.strategy.DefaultExtra;
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
  * @package_name www.baijiayun.module_common.widget.smartrv
- * @describe
+ * @describe 配置
  */
 public class NxRefreshConfig {
 
@@ -20,11 +20,11 @@ public class NxRefreshConfig {
 
     private volatile static NxRefreshConfig instance;
 
-    public static NxRefreshConfig get() {
+    static NxRefreshConfig get() {
         return instance;
     }
 
-    public DefaultExtra getDefaultExtra() {
+    DefaultExtra getDefaultExtra() {
         return defaultExtra;
     }
 
