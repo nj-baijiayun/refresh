@@ -26,13 +26,14 @@ public class RefreshViewProxy implements INxRefreshLayoutStrategy {
 
     RefreshViewProxy(INxRefreshLayoutStrategy iRefreshLayoutStrategy, View view) throws Exception {
         if (proxyStrategy == null) {
-            this.view=view;
+            this.view = view;
             proxyStrategy = iRefreshLayoutStrategy;
         }
     }
+
     @Override
     public INxRefreshLayout setEnableLoadMore(boolean enabled) {
-        if(proxyStrategy!=null) {
+        if (proxyStrategy != null) {
             proxyStrategy.setEnableLoadMore(enabled);
         }
         return this;
@@ -40,7 +41,7 @@ public class RefreshViewProxy implements INxRefreshLayoutStrategy {
 
     @Override
     public INxRefreshLayout setEnableRefresh(boolean enabled) {
-        if(proxyStrategy!=null) {
+        if (proxyStrategy != null) {
             proxyStrategy.setEnableRefresh(enabled);
         }
         return this;
@@ -49,7 +50,7 @@ public class RefreshViewProxy implements INxRefreshLayoutStrategy {
 
     @Override
     public INxRefreshLayout setOnRefreshLoadMoreListener(INxOnRefreshListener nxOnRefreshListener) {
-        if(proxyStrategy!=null) {
+        if (proxyStrategy != null) {
             proxyStrategy.setOnRefreshLoadMoreListener(nxOnRefreshListener);
         }
         return this;
@@ -57,7 +58,7 @@ public class RefreshViewProxy implements INxRefreshLayoutStrategy {
 
     @Override
     public INxRefreshLayout finishRefresh() {
-        if(proxyStrategy!=null) {
+        if (proxyStrategy != null) {
             proxyStrategy.finishRefresh();
         }
         return this;
@@ -65,11 +66,12 @@ public class RefreshViewProxy implements INxRefreshLayoutStrategy {
 
     @Override
     public INxRefreshLayout finishLoadMore() {
-        if(proxyStrategy!=null) {
+        if (proxyStrategy != null) {
             proxyStrategy.finishLoadMore();
         }
         return this;
     }
+
 
 
 }

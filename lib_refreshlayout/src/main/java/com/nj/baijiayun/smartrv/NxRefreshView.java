@@ -47,7 +47,6 @@ public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRec
     }
 
     private void initView() throws Exception {
-
         ViewGroup refreshLayoutView = createRefreshLayoutView();
         mProxy = new RefreshViewProxy(createStrategy(this, refreshLayoutView), refreshLayoutView);
         LayoutParams params = new LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
@@ -58,8 +57,6 @@ public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRec
         addView(refreshLayoutView);
         refreshLayoutView.addView(mRecyclerView);
         initExtra();
-
-
     }
 
 
@@ -85,6 +82,7 @@ public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRec
 
     @Override
     public INxRefreshLayout finishLoadMore() {
+
         return mProxy.finishLoadMore();
     }
 
@@ -104,22 +102,30 @@ public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRec
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
         this.mAdapter = adapter;
-        mRecyclerView.setAdapter(adapter);
+        if (mRecyclerView != null) {
+            mRecyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
     public void setLayoutManager(RecyclerView.LayoutManager layout) {
-        mRecyclerView.setLayoutManager(layout);
+        if (mRecyclerView != null) {
+            mRecyclerView.setLayoutManager(layout);
+        }
     }
 
     @Override
     public void addItemDecoration(RecyclerView.ItemDecoration decor) {
-        mRecyclerView.addItemDecoration(decor);
+        if (mRecyclerView != null) {
+            mRecyclerView.addItemDecoration(decor);
+        }
     }
 
     @Override
     public void setItemAnimator(RecyclerView.ItemAnimator animator) {
-        mRecyclerView.setItemAnimator(animator);
+        if (mRecyclerView != null) {
+            mRecyclerView.setItemAnimator(animator);
+        }
     }
 
     @Override
@@ -158,6 +164,17 @@ public class NxRefreshView extends FrameLayout implements INxRefreshLayout, IRec
             setExtra(new DefaultExtra());
         }
 
+
+    }
+
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mProxy != null) {
+            finishLoadMore();
+            finishRefresh();
+        }
 
     }
 }

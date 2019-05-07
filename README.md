@@ -91,6 +91,17 @@ NxRefreshConfig.init(new DefaultExtra() {
 
             }
         });
+
+  //设置当前页面需要的额外的属性 这个并不会覆盖配置的公共的全部属性，除非是设置相同的会覆盖相同的属性
+  nxRefreshView.setExtra(new INxExtra() {
+                  @Override
+                  public void setExtra(View refreshLayoutView) {
+                      if (refreshLayoutView instanceof SmartRefreshLayout) {
+                          ((SmartRefreshLayout) refreshLayoutView).setHeaderHeight(100);
+                      }
+                  }
+              });
+
 ```
 
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.nj.baijiayun.smartrv.INxOnRefreshListener;
 import com.nj.baijiayun.smartrv.INxRefreshLayout;
+import com.nj.baijiayun.smartrv.NxRefreshView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     List<String> datas = new ArrayList<>();
 
-    MyRefresh nxRefreshView;
+    NxRefreshView nxRefreshView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < 100; i++) {
             datas.add(i+"");
         }
+
+
+
 
 
         //可选 不设置 默认是LinearLayoutManager Vertical

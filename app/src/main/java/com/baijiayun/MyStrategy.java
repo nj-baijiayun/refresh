@@ -47,4 +47,6 @@ public class MyStrategy implements INxRefreshLayoutStrategy {
     public INxRefreshLayout finishLoadMore() {
         return null;
     }
+
+
 }

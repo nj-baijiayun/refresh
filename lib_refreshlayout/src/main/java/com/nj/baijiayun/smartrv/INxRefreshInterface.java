@@ -14,14 +14,16 @@ import android.view.ViewGroup;
 public interface INxRefreshInterface {
     /**
      * 创建包裹的View
+     *
      * @return viewGroup
      */
     ViewGroup createRefreshLayoutView();
 
     /**
      * 配置第三方刷新实现类
+     *
      * @param iNxRefreshLayout i
-     * @param refreshView v
+     * @param refreshView      v
      * @return IRefreshLayoutStrategy
      */
     INxRefreshLayoutStrategy createStrategy(INxRefreshLayout iNxRefreshLayout, View refreshView);
@@ -31,4 +33,7 @@ public interface INxRefreshInterface {
      * 初始化属性
      */
     void initExtra();
+
+
+
 }

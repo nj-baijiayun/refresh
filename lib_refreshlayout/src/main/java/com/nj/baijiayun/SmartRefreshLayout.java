@@ -62,7 +62,6 @@ import com.nj.baijiayun.util.DelayedRunnable;
 import com.nj.baijiayun.util.DensityUtil;
 import com.nj.baijiayun.util.ScrollBoundaryUtil;
 import com.nj.baijiayun.util.ViscousFluidInterpolator;
-import com.nj.baijiayun.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -2168,6 +2167,7 @@ public class SmartRefreshLayout extends ViewGroup implements RefreshLayout, Nest
      */
     @Override
     public RefreshLayout setRefreshContent(@NonNull View content) {
+
         return setRefreshContent(content, MATCH_PARENT, MATCH_PARENT);
     }
 
