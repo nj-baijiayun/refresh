@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="com.test.MainActivity">
 
-   <!--<com.nj.baijiayun.SmartRefreshLayout-->
+   <!--<com.nj.baijiayun.refresh.SmartRefreshLayout-->
        <!--android:layout_width="match_parent"-->
        <!--android:layout_height="match_parent">-->
       <!--<include layout="@layout/tv"/>-->
 
-   <!--</com.nj.baijiayun.SmartRefreshLayout>-->
+   <!--</com.nj.baijiayun.refresh.SmartRefreshLayout>-->
 
-   <com.nj.baijiayun.smartrv.NxRefreshView
+   <com.nj.baijiayun.refresh.smartrv.NxRefreshView
        android:id="@+id/nxRv"
        android:layout_width="match_parent"
        android:layout_height="match_parent"/>
