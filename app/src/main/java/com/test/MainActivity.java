@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             datas.add(i+"");
         }
 
-        NxRefreshConfig.init(new DefaultExtra()).setType(NxRefreshConfig.TYPE_SMART_REFRESH);
+        NxRefreshConfig.init(new DefaultExtra());
 
         //可选 不设置 默认是LinearLayoutManager Vertical
         nxRefreshView.setLayoutManager(new GridLayoutManager(this,4));
