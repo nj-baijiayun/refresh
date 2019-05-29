@@ -33,9 +33,9 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    api 'com.nj.baijiayun:refresh:1.0.1-20190510.025448-8'
+//    api 'com.nj.baijiayun:refresh:1.0.1'
 
-//    api project(":lib_refreshlayout")
+    api project(":lib_refreshlayout")
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
