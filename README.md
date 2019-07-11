@@ -17,11 +17,11 @@ allprojects {
 在dependencies下添加依赖
 ```
 dependencies {
-    //当前最新版本为1.0.0
-    implementation 'com.nj.baijiayun:refresh:1.0.0'
+    //newest-version请修改为当前最新版本
+    implementation 'com.nj.baijiayun:refresh:newest-version'
 }
 ```
-当前最新版本为1.0.0 [版本说明](./changelog.md)
+当前最新版本为见 [版本说明](./changelog.md)
 
 
 
