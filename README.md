@@ -21,7 +21,7 @@ dependencies {
     implementation 'com.nj.baijiayun:refresh:1.0.0'
 }
 ```
-当前最新版本为1.0.3 [版本说明](./changelog.md)
+当前最新版本为1.0.2 [版本说明](./changelog.md)
 
 
 
