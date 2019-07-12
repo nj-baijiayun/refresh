@@ -10,9 +10,17 @@
 * 更改配置类
 * 修改包路径
 
-##1.0.2
+## 1.0.2
 修改一些类名
 
-##1.0.3
+## 1.0.3
 加入对recycleView适配器的二次封装
 
+SNAPSHOT 包下的，可以先测试使用
+```
+    api 'com.nj.baijiayun:refresh:1.0.2-20190712.085948-1'
+    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
+    annotationProcessor 'com.nj.baijiayun:compiler:1.0.0-20190712.085646-3'
+
+```
+    

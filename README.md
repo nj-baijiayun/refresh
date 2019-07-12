@@ -201,14 +201,15 @@ public class NxSmartRefreshLayoutStrategy implements INxRefreshLayoutStrategy {
 
 ### RecycleView 多类型适配器使用
 
-1. 在每个module下引入
+- 在每个module下引入
 
 ```
 implementation 'com.nj.baijiayun:annotations:{最新的版本}'
 annotationProcessor 'com.nj.baijiayun:compiler:{最新的版本}'
 
 ```
-2. 创建适配器
+
+- 创建适配器
 
 ```
 public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
@@ -223,7 +224,7 @@ public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
     }
 }
 ```
-3. 创建holder
+- 创建holder
 
 ```
 public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
@@ -244,7 +245,7 @@ public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
 
 ```
 
-4. holder注册到factory 这时候适配器根据不同model就会自动找对应的holder
+- holder注册到factory 这时候适配器根据不同model就会自动找对应的holder
 
 ```
 @HolderCreate
