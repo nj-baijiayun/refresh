@@ -2,7 +2,6 @@ package com.test;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +13,20 @@ import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
+import com.test.adpter.DemoAdapter;
+import com.test.bean.DemoBean;
+import com.test.bean.DemoBean2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    List<String> datas = new ArrayList<>();
+    List<Object> datas = new ArrayList<>();
 
     NxRefreshView nxRefreshView;
+
+    private DemoAdapter demoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +37,24 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-        nxRefreshView.setAdapter(adapter);
-        for (int i = 0; i < 10; i++) {
-            datas.add(i+"");
+        demoAdapter = new DemoAdapter(this);
+        nxRefreshView.setAdapter(demoAdapter);
+
+
+        for (int i = 0; i < 40; i++) {
+            if (i % 2 == 0) {
+                datas.add(new DemoBean());
+            } else {
+                datas.add(new DemoBean2());
+
+            }
         }
+        demoAdapter.addAll(datas);
 
         NxRefreshConfig.init(new DefaultExtra());
 
         //可选 不设置 默认是LinearLayoutManager Vertical
-        nxRefreshView.setLayoutManager(new GridLayoutManager(this,4));
+//        nxRefreshView.setLayoutManager(new GridLayoutManager(this, 4));
         nxRefreshView.setOnRefreshLoadMoreListener(new INxOnRefreshListener() {
 
             @Override
@@ -52,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         nxRefreshView.finishRefresh();
                     }
-                },1000);
+                }, 1000);
             }
 
             @Override
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         nxRefreshView.finishLoadMore();
                     }
-                },1000);
+                }, 1000);
             }
         });
 

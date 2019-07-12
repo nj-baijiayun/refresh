@@ -17,11 +17,11 @@ allprojects {
 在dependencies下添加依赖
 ```
 dependencies {
-    //newest-version请修改为当前最新版本
-    implementation 'com.nj.baijiayun:refresh:newest-version'
+    //当前最新版本为1.0.0
+    implementation 'com.nj.baijiayun:refresh:1.0.0'
 }
 ```
-当前最新版本为见 [版本说明](./changelog.md)
+当前最新版本为1.0.3 [版本说明](./changelog.md)
 
 
 
@@ -59,7 +59,7 @@ dependencies {
 
 由于本控件是屏蔽第三方的刷新控件，所以初始化配置第三方的额外属性，这个配置设置完，会让所有的地方生效
 
-```java
+```
 NxRefreshConfig.init(new DefaultExtra() {
             @Override
             public void setExtra(View view) {
@@ -199,6 +199,67 @@ public class NxSmartRefreshLayoutStrategy implements INxRefreshLayoutStrategy {
 
 ```
 
+### RecycleView 多类型适配器使用
+
+1. 在每个module下引入
+```
+implementation 'com.nj.baijiayun:annotations:{最新的版本}'
+annotationProcessor 'com.nj.baijiayun:compiler:{最新的版本}'
+
+```
+2. 创建适配器
+```
+public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
+
+    public DemoAdapter(Context context) {
+        super(context);
+    }
+
+    @Override
+    public ViewTypeFactory createTypeFactory() {
+        return new DemoFactory();
+    }
+}
+```
+3. 创建holder
+```
+public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
+    DemoHolder(ViewGroup parent) {
+        super(parent);
+    }
+
+    @Override
+    public int bindLayout() {
+        return R.layout.item_holder_1;
+    }
+
+    @Override
+    public void bindData(DemoBean model, int position, BaseRecyclerAdapter adapter) {
+
+    }
+}
+
+```
+
+4. holder注册到factory 这时候适配器根据不同model就会自动找对应的holder
+```
+@HolderCreate
+public class DemoFactory implements ViewTypeFactory {
+
+    @TypeHolder(holder = DemoHolder.class)
+    @TypeHolder(holder = Demo2Holder.class)
+    @Override
+    public int getViewType(Object object) {
+        return DemoFactoryHolderHelper.getViewType(object);
+    }
+
+    @Override
+    public BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int viewType) {
+        return DemoFactoryHolderHelper.createViewHolder(parent, viewType);
+    }
+}
 
 
+```
 
+  
