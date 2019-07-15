@@ -3,6 +3,7 @@ package com.test.adpter;
 import android.view.ViewGroup;
 
 import com.baijiayun.R;
+import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.test.bean.DemoBean;
@@ -15,6 +16,7 @@ import com.test.bean.DemoBean;
  * @package_name com.test
  * @describe
  */
+@AdapterCreate(group = {"demo","Test"})
 public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
     public DemoHolder(ViewGroup parent) {
         super(parent);

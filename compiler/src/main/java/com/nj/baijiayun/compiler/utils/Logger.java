@@ -31,7 +31,7 @@ public class Logger {
 
     public void error(CharSequence error) {
         if (StringUtils.isNotEmpty(error)) {
-            msg.printMessage(Diagnostic.Kind.ERROR, Consts.PREFIX_OF_LOGGER + "An exception is encountered, [" + error + "]");
+            msg.printMessage(Diagnostic.Kind.ERROR, Consts.PREFIX_OF_LOGGER + "c is encountered, [" + error + "]");
         }
     }
 

@@ -1,8 +1,10 @@
 apply plugin: 'com.android.application'
 apply from: 'dist.gradle'
+
 static releaseTime() {
     return new Date().format("yyyyMMdd-HHmm", TimeZone.getTimeZone("GMT+8"))
 }
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -12,6 +14,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: "demo"]
+            }
+        }
     }
     buildTypes {
         release {
@@ -37,14 +44,14 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    api 'com.nj.baijiayun:refresh:1.0.2-20190712.085948-1'
+//    api 'com.nj.baijiayun:refresh:1.0.2'
 
-//    api project(":lib_refreshlayout")
-//    implementation project(':annotations')
-//    annotationProcessor project(':compiler')
-    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
-    annotationProcessor 'com.nj.baijiayun:compiler:1.0.0-20190712.085646-3'
-
+    api project(":lib_refreshlayout")
+    implementation project(':annotations')
+    annotationProcessor project(':compiler')
+//    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
+//    annotationProcessor 'com.nj.baijiayun:compiler:1.0.0-20190712.085646-3'
+//
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

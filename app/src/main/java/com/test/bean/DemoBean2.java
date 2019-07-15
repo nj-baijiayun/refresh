@@ -1,5 +1,7 @@
 package com.test.bean;
 
+import com.nj.baijiayun.refresh.recycleview.IMultipleTypeModel;
+
 /**
  * @author chengang
  * @date 2019-07-12
@@ -8,5 +10,9 @@ package com.test.bean;
  * @package_name com.test
  * @describe
  */
-public class DemoBean2 {
+public class DemoBean2 implements IMultipleTypeModel {
+    @Override
+    public int itemType() {
+        return 0;
+    }
 }

@@ -7,20 +7,19 @@ import com.nj.baijiayun.refresh.recycleview.MultipleTypeHolderFactory;
 
 /**
  * @author chengang
- * @date 2019-07-12
+ * @date 2019-07-15
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
- * @package_name com.test
+ * @package_name com.test.adpter
  * @describe
  */
-public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
-
-    public DemoAdapter(Context context) {
+public class TestAdapter extends BaseMultipleTypeRvAdapter {
+    public TestAdapter(Context context) {
         super(context);
     }
 
     @Override
     public MultipleTypeHolderFactory createTypeFactory() {
-        return new DemoFactory();
+        return null;
     }
 }

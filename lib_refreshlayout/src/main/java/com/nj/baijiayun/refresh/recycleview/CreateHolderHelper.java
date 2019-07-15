@@ -13,6 +13,7 @@ import java.util.HashMap;
  * @date 2019/4/24
  * @describe desc
  */
+@Deprecated
 public class CreateHolderHelper {
 
     private static final HashMap<String, SoftReference> PACKAGE_MAP = new HashMap<>();
@@ -26,17 +27,17 @@ public class CreateHolderHelper {
      * @return holder
      */
     @SuppressLint("UseSparseArrays")
-    public static BaseMultipleTypeViewHolder autoCreateHolder(Class<?> cls, int type, ViewGroup viewParent) {
+    public static BaseMultTypeViewHolder autoCreateHolder(Class<?> cls, int type, ViewGroup viewParent) {
 
 
-        SoftReference<HashMap<Integer, Constructor<? extends BaseMultipleTypeViewHolder>>>softReference = PACKAGE_MAP.get(cls.getName());
+        SoftReference<HashMap<Integer, Constructor<? extends BaseMultTypeViewHolder>>>softReference = PACKAGE_MAP.get(cls.getName());
         if (softReference == null||softReference.get()==null) {
-            softReference = new SoftReference<HashMap<Integer, Constructor<? extends BaseMultipleTypeViewHolder>>>(new HashMap());
+            softReference = new SoftReference<HashMap<Integer, Constructor<? extends BaseMultTypeViewHolder>>>(new HashMap());
             PACKAGE_MAP.put(cls.getName(),softReference);
         }
 
 
-        Constructor<? extends BaseMultipleTypeViewHolder> constructor = softReference.get().get(type);
+        Constructor<? extends BaseMultTypeViewHolder> constructor = softReference.get().get(type);
         if (constructor != null) {
             try {
                 return constructor.newInstance(viewParent);
@@ -54,8 +55,8 @@ public class CreateHolderHelper {
                 }
                 if (type == (int) m.get(cls)) {
                     TypeHolder annotation = m.getAnnotation(TypeHolder.class);
-                    Class<? extends BaseMultipleTypeViewHolder> value = annotation.holder();
-                    Constructor<? extends BaseMultipleTypeViewHolder> valueConstructor = value.getConstructor(ViewGroup.class);
+                    Class<? extends BaseMultTypeViewHolder> value = annotation.value();
+                    Constructor<? extends BaseMultTypeViewHolder> valueConstructor = value.getConstructor(ViewGroup.class);
                     softReference.get().put(type, valueConstructor);
                     return valueConstructor.newInstance(viewParent);
                 }
@@ -67,4 +68,5 @@ public class CreateHolderHelper {
         return null;
 
     }
+
 }

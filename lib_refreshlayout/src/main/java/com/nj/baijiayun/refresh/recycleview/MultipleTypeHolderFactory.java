@@ -7,15 +7,20 @@ import android.view.ViewGroup;
  * @date 2019/4/23
  * @describe 类型工厂
  */
-@Deprecated
-public interface ViewTypeFactory {
+
+public interface MultipleTypeHolderFactory {
+
+//    int createViewType();
+
+
+
     /**
      * 根据
      * @param parent RV的onCreateViewHolder回调的parent
      * @param viewType 类型id
      * @return  ViewHolder
      */
-    BaseMultTypeViewHolder createViewHolder(ViewGroup parent, int viewType);
+    BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int viewType);
 
     /**
      * 根据model获得类型

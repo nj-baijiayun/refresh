@@ -8,12 +8,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.baijiayun.R;
+import com.nj.baijiayun.processor.DemoAdapterHelper;
+import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.smartrv.INxOnRefreshListener;
 import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
-import com.test.adpter.DemoAdapter;
 import com.test.bean.DemoBean;
 import com.test.bean.DemoBean2;
 
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     NxRefreshView nxRefreshView;
 
-    private DemoAdapter demoAdapter;
+    private BaseMultipleTypeRvAdapter demoAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-        demoAdapter = new DemoAdapter(this);
+        demoAdapter = DemoAdapterHelper.getAdapter(this);
         nxRefreshView.setAdapter(demoAdapter);
 
 

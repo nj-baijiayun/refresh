@@ -4,8 +4,8 @@ import android.view.ViewGroup;
 
 import com.nj.baijiayun.annotations.HolderCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
-import com.nj.baijiayun.refresh.recycleview.TypeHolder;
-import com.nj.baijiayun.refresh.recycleview.ViewTypeFactory;
+import com.nj.baijiayun.refresh.recycleview.MultipleTypeHolder;
+import com.nj.baijiayun.refresh.recycleview.MultipleTypeHolderFactory;
 
 /**
  * @author chengang
@@ -16,10 +16,10 @@ import com.nj.baijiayun.refresh.recycleview.ViewTypeFactory;
  * @describe
  */
 @HolderCreate
-public class DemoFactory implements ViewTypeFactory {
+public class DemoFactory implements MultipleTypeHolderFactory {
 
-    @TypeHolder(holder = DemoHolder.class)
-    @TypeHolder(holder = Demo2Holder.class)
+    @MultipleTypeHolder(holder = DemoHolder.class)
+    @MultipleTypeHolder(holder = Demo2Holder.class)
     @Override
     public int getViewType(Object object) {
         return DemoFactoryHolderHelper.getViewType(object);

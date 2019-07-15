@@ -1,7 +1,6 @@
 package com.nj.baijiayun.compiler;
 
 import com.nj.baijiayun.annotations.HolderCreate;
-import com.nj.baijiayun.compiler.utils.Logger;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -16,9 +15,6 @@ import com.sun.tools.javac.util.List;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.Filer;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
@@ -36,25 +32,12 @@ import javax.lang.model.element.TypeElement;
  */
 //@AutoService(Processor.class)
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class HolderNewProcessor extends AbstractProcessor {
+public class HolderNewProcessor extends BaseProcessor {
 
-    private Logger logger;
 
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         return Collections.singleton(HolderCreate.class.getCanonicalName());
-    }
-
-    private Filer filer;
-
-
-    @Override
-    public synchronized void init(ProcessingEnvironment processingEnvironment) {
-        super.init(processingEnvironment);
-        filer = processingEnv.getFiler();
-        logger = new Logger(processingEnv.getMessager());
-
-
     }
 
 
@@ -113,12 +96,12 @@ public class HolderNewProcessor extends AbstractProcessor {
                 logger.error(ee);
             }
 
-
         }
-
-
         return false;
     }
+
+
+
 
     private void createTypeToHolderAndModelToType(StringBuilder caseCodeTotalStr, StringBuilder modelTotalStr, Attribute.Array array) {
         for (int j = 0; j < array.values.length; j++) {

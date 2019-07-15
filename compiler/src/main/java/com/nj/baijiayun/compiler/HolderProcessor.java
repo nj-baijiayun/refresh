@@ -37,6 +37,7 @@ import javax.lang.model.type.TypeKind;
  * @describe
  */
 //@AutoService(Processor.class)
+@Deprecated
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class HolderProcessor extends AbstractProcessor {
 

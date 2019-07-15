@@ -201,7 +201,10 @@ public class NxSmartRefreshLayoutStrategy implements INxRefreshLayoutStrategy {
 
 ### RecycleView 多类型适配器使用
 
-- 在每个module下引入
+
+#### 使用HolderCreate  
+
+1. 在每个module下引入
 
 ```
 implementation 'com.nj.baijiayun:annotations:{最新的版本}'
@@ -209,7 +212,7 @@ annotationProcessor 'com.nj.baijiayun:compiler:{最新的版本}'
 
 ```
 
-- 创建适配器
+2. 创建适配器
 
 ```
 public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
@@ -224,7 +227,7 @@ public class DemoAdapter extends BaseMultipleTypeRvAdapter<Object> {
     }
 }
 ```
-- 创建holder
+3. 创建holder
 
 ```
 public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
@@ -244,6 +247,14 @@ public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
 }
 
 ```
+
+4. 使用的时候直接拿定义的adapter
+
+```
+DemoAdapter adapter=new DemoAdapter(context);
+
+```
+
 
 - holder注册到factory 这时候适配器根据不同model就会自动找对应的holder
 
@@ -266,5 +277,67 @@ public class DemoFactory implements ViewTypeFactory {
 
 
 ```
+
+
+#### 使用AdapterCreate  更加简洁
+
+1. 添加依赖
+
+```
+android {
+    defaultConfig {
+    ...
+    javaCompileOptions {
+        annotationProcessorOptions {
+        arguments = [ moduleName : project.getName() ]
+        }
+    }
+    }
+}
+dependencies {
+   implementation 'com.nj.baijiayun:annotations:{最新的版本}'
+   annotationProcessor 'com.nj.baijiayun:compiler:{最新的版本}'
+}
+
+```
+
+2. 给Holder设置注解
+
+```
+//group 是一个集合，写多个group可以分到多个adapter
+//group 不写默认为default 
+//group属性用于归类holder到adapter
+@AdapterCreate(group="test")
+public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
+ 
+}
+
+```
+
+3.获取adapter
+
+```
+BaseMultipleTypeRvAdapter demoAdapter =DemoAdapterHelper.getAdapter(this);
+```
+
+
+#### 使用AdapterCreate 生成代码的规则
+
+出现多少个group就会生成多少个Adapter跟Factory,
+用于holder 归到group对应的Adapter
+
+- helper类 moduleName+"AdapterHelper"
+    工厂方法获取adapter
+- adapter类 moduleName+group+"MultipleAdapter"
+- 类型factory类   moduleName+group+"MultipleTypeFactory"
+
+
+
+
+
+
+
+
+
 
   

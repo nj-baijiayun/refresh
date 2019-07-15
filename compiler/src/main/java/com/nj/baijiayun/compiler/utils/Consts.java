@@ -26,6 +26,7 @@ public class Consts {
     public static final String CHAR = LANG + ".Character";
     public static final String STRING = LANG + ".String";
     public static final String SERIALIZABLE = "java.io.Serializable";
+    public static final String PACKAGE = "com.nj.baijiayun.processor";
 
     // Custom interface
     private static final String FACADE_PACKAGE = "com.alibaba.android.arouter.facade";
