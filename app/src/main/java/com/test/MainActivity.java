@@ -6,10 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baijiayun.R;
 import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
+import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
+import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
 import com.nj.baijiayun.refresh.smartrv.INxOnRefreshListener;
 import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
@@ -29,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BaseMultipleTypeRvAdapter demoAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +43,27 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
         demoAdapter = DemoAdapterHelper.getAdapter(this);
+
+        demoAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseViewHolder holder, int position, View view, Object item) {
+                if (view.getId() == R.id.tv1) {
+                    Toast.makeText(MainActivity.this, "inner" + position, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(MainActivity.this, "DemoBean", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        demoAdapter.setOnItemLongClickListener(new BaseRecyclerAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(BaseViewHolder holder, int position, View view, Object item) {
+                Toast.makeText(MainActivity.this, "DemoBeanLong", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
         nxRefreshView.setAdapter(demoAdapter);
 
 

@@ -68,11 +68,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
             throw new NullPointerException("baseViewHolder not allow empty");
         }
         baseViewHolder.convertView.setTag(baseViewHolder);
-        if (baseViewHolder.isNeedClickRootItemViewInHolder()) {
+        if (!baseViewHolder.isNeedClickRootItemViewInHolder()) {
             //这个holderItemHolder只是一个封装而已
             baseViewHolder.getConvertView().setOnClickListener(holderItemViewOnClickListener);
         }
-        if(baseViewHolder.isNeedLongClickRootItemViewInHolder())
+        if(!baseViewHolder.isNeedLongClickRootItemViewInHolder())
         {
             baseViewHolder.getConvertView().setOnLongClickListener(holderItemViewOnClickListener);
         }

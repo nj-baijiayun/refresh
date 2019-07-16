@@ -30,8 +30,8 @@ public class BaseViewHolder<W> extends RecyclerView.ViewHolder {
 
     View convertView;
 
-    private boolean needClickRootItemViewInHolder = true;
-    private boolean needLongClickRootItemViewInHolder = true;
+    private boolean needClickRootItemViewInHolder = false;
+    private boolean needLongClickRootItemViewInHolder = false;
 
     public void setNeedClickRootItemViewInHolder(boolean needClickRootItemViewInHolder) {
         this.needClickRootItemViewInHolder = needClickRootItemViewInHolder;

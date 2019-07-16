@@ -37,7 +37,7 @@ import javax.lang.model.type.TypeMirror;
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class AdapterProcessor extends BaseProcessor {
 
-    private static final String DEFAULT_GROUP = "group";
+    private static final String DEFAULT_GROUP = "default";
     private static final String RECYCLE_VIEW_PACKAGE = "com.nj.baijiayun.refresh";
     private String moduleName;
 
@@ -47,13 +47,8 @@ public class AdapterProcessor extends BaseProcessor {
         Map<String, String> options = processingEnvironment.getOptions();
         try {
             moduleName = options.get("moduleName");
-
         } catch (Exception ee) {
-            logger.error("You need add javaCompileOptions,example:\n  javaCompileOptions {\n" +
-                    "            annotationProcessorOptions {\n" +
-                    "                arguments = [moduleName: \"demo\"]\n" +
-                    "            }\n" +
-                    "        }");
+            logger.error("You need add javaCompileOptions");
         }
 
     }
@@ -65,70 +60,63 @@ public class AdapterProcessor extends BaseProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-
-
         Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(AdapterCreate.class);
         Map<String, GroupModel> groupMap = new HashMap<>();
         for (Element e : elementsAnnotatedWith) {
-            //需要按照group 分组
             AdapterCreate annotation = e.getAnnotation(AdapterCreate.class);
             String[] groups = annotation.group();
             for (String group : groups) {
-                if (group == null) {
-                    group = DEFAULT_GROUP;
-                }
-
-                if (groupMap.get(group) == null) {
-                    GroupModel v = new GroupModel();
-                    v.setGroup(group);
-                    groupMap.put(group, v);
-                }
-
-                GroupModel groupModel = groupMap.get(group);
+                GroupModel groupModel = getGroupModel(groupMap, group);
                 TypeElement te = (TypeElement) e;
-                //获取了当前的类名
+                //获取当前继承的类名
                 TypeMirror superclass = te.getSuperclass();
                 //获取继承的类的范型
                 Type.ClassType classType = (Type.ClassType) superclass;
                 List<Type> typeArguments = classType.getTypeArguments();
-
                 groupModel.getHolderClsName().add(te.getQualifiedName().toString());
                 groupModel.getModelClsName().add(typeArguments.get(0).toString());
             }
 
         }
 
-        if (!isCreate) {
-
+        if (isFirstRun()) {
             Map<String, String> adapterGroupMap = new HashMap<>();
             for (String key : groupMap.keySet()) {
                 GroupModel groupModel = groupMap.get(key);
-                createAdapter(createFactory(groupModel.getHolderClsName(), groupModel.getModelClsName(), groupModel.getGroup()), groupModel.getGroup());
                 adapterGroupMap.put(groupModel.getGroup(), getPackageName() + "." + getAdapterName(groupModel.getGroup()));
+                createAdapter(createFactory(groupModel.getHolderClsName(), groupModel.getModelClsName(), groupModel.getGroup()), groupModel.getGroup());
             }
-
             createAdapterHelper(adapterGroupMap);
-            isCreate = true;
         }
 
 
         return false;
     }
 
-    private void createAdapterHelper(Map<String, String> adapterGropup) {
-
-
-        StringBuilder mapCode = new StringBuilder();
-        for (String key : adapterGropup.keySet()) {
-            mapCode.append(String.format("map.put(\"%s\", \"%s\");", key, adapterGropup.get(key)));
+    private GroupModel getGroupModel(Map<String, GroupModel> groupMap, String group) {
+        if (group == null) {
+            group = DEFAULT_GROUP;
         }
+        if (groupMap.get(group) == null) {
+            GroupModel v = new GroupModel();
+            v.setGroup(group);
+            groupMap.put(group, v);
+        }
+        return groupMap.get(group);
+    }
 
-        FieldSpec fieldSpec = FieldSpec.builder(Map.class, "map", Modifier.STATIC, Modifier.FINAL).initializer("new java.util.HashMap()", "").build();
 
+    private void createAdapterHelper(Map<String, String> adapterGroup) {
+        StringBuilder mapCode = new StringBuilder();
+        for (String key : adapterGroup.keySet()) {
+            mapCode.append(String.format("map.put(\"%s\", \"%s\");", key, adapterGroup.get(key)));
+        }
+        //申明一个map对象并且初始化
+        FieldSpec fieldSpec = FieldSpec.builder(Map.class, "map", Modifier.STATIC, Modifier.FINAL)
+                .initializer("new java.util.HashMap()", "")
+                .build();
 
-        String returnName = getClsNameByRvPackage("recycleview.BaseMultipleTypeRvAdapter");
-
-
+        String getAdapterReturnName = getClsNameByRvPackage("recycleview.BaseMultipleTypeRvAdapter");
         String methodCode = "String key = (String) map.get(group);\n" +
                 "        try {\n" +
                 "            Class<?> aClass = Class.forName(key);\n" +
@@ -142,20 +130,18 @@ public class AdapterProcessor extends BaseProcessor {
 
         MethodSpec getAdapter = MethodSpec.methodBuilder("getAdapter")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .returns(ClassName.bestGuess(returnName))
+                .returns(ClassName.bestGuess(getAdapterReturnName))
                 .addParameter(ClassName.bestGuess("android.content.Context"), "context")
                 .addParameter(String.class, "group")
                 .addStatement(methodCode, "")
                 .build();
 
-
         MethodSpec getAdapterNoGroup = MethodSpec.methodBuilder("getAdapter")
                 .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
-                .returns(ClassName.bestGuess(returnName))
+                .returns(ClassName.bestGuess(getAdapterReturnName))
                 .addParameter(ClassName.bestGuess("android.content.Context"), "context")
                 .addStatement("return getAdapter(context,$S)", DEFAULT_GROUP)
                 .build();
-
 
         TypeSpec adapterHelper = TypeSpec.classBuilder(getAdapterHelperName())
                 .addModifiers(Modifier.PUBLIC)
@@ -167,11 +153,8 @@ public class AdapterProcessor extends BaseProcessor {
 
         JavaFile javaFile = JavaFile.builder(getPackageName(), adapterHelper)
                 .build();
-        try {
-            javaFile.writeTo(filer);
-        } catch (Exception ee) {
-            logger.error(ee);
-        }
+        writeToFile(javaFile);
+
 
     }
 
@@ -184,28 +167,35 @@ public class AdapterProcessor extends BaseProcessor {
         return getModuleName() + getGroupName(group) + "MultipleTypeFactory";
     }
 
-    private String createFactory(java.util.List<String> holderClassName, java.util.List<String> modleClass, String group) {
 
+    private String createFactory(java.util.List<String> holderClassName, java.util.List<String> modleClass, String group) {
         String clsName = getAdapterFactoryName(group);
         String superClassName = getClsNameByRvPackage("recycleview.MultipleTypeHolderFactory");
         String returnClassName = getClsNameByRvPackage("recycleview.BaseMultipleTypeViewHolder");
-        StringBuilder caseCodeTotalStr = new StringBuilder();
-        StringBuilder modelTotalStr = new StringBuilder();
-
-        for (int i = 0; i < holderClassName.size(); i++) {
-            String caseCode = String.format("case %s : return new %s(parent);\n", String.valueOf(i + 1), holderClassName.get(i));
-            String modelCodeStr = String.format("if(object instanceof %s){return %s;}", modleClass.get(i), String.valueOf(i + 1));
-            caseCodeTotalStr.append(caseCode);
-            modelTotalStr.append(modelCodeStr);
+        StringBuilder caseCodeStr = new StringBuilder();
+        StringBuilder modelCodeStr = new StringBuilder();
+        //size 为1的时候不做if 跟switch判断
+        if (holderClassName.size() == 1) {
+            String caseCode = String.format("return new %s(parent)", holderClassName.get(0));
+            String modelCode = String.format("return %s", String.valueOf(1));
+            caseCodeStr.append(caseCode);
+            modelCodeStr.append(modelCode);
+        } else {
+            for (int i = 0; i < holderClassName.size(); i++) {
+                String caseCode = String.format("case %s : return new %s(parent);\n", String.valueOf(i + 1), holderClassName.get(i));
+                String modelCode = String.format("if(object instanceof %s){return %s;}", modleClass.get(i), String.valueOf(i + 1));
+                caseCodeStr.append(caseCode);
+                modelCodeStr.append(modelCode);
+            }
+            caseCodeStr = new StringBuilder(String.format(" switch(type){%s}  return null", caseCodeStr));
+            modelCodeStr.append("return 0");
         }
-
-
         MethodSpec getViewType = MethodSpec.methodBuilder("getViewType")
                 .addModifiers(Modifier.PUBLIC)
                 .returns(int.class)
                 .addAnnotation(getOverride())
                 .addParameter(Object.class, "object")
-                .addStatement("$L return 0", modelTotalStr.toString())
+                .addStatement("$L", modelCodeStr.toString())
                 .build();
         MethodSpec createViewHolder = MethodSpec.methodBuilder("createViewHolder")
                 .addModifiers(Modifier.PUBLIC)
@@ -213,7 +203,7 @@ public class AdapterProcessor extends BaseProcessor {
                 .returns(ClassName.bestGuess(returnClassName))
                 .addParameter(ClassName.bestGuess("android.view.ViewGroup"), "parent")
                 .addParameter(int.class, "type")
-                .addStatement(" switch(type){$L}  return null", caseCodeTotalStr.toString())
+                .addStatement("$L", caseCodeStr.toString())
                 .build();
         TypeSpec factoryCls = TypeSpec.classBuilder(clsName)
                 .addModifiers(Modifier.PUBLIC)
@@ -223,26 +213,8 @@ public class AdapterProcessor extends BaseProcessor {
                 .build();
         JavaFile javaFile = JavaFile.builder(getPackageName(), factoryCls)
                 .build();
-
-        try {
-            javaFile.writeTo(filer);
-        } catch (Exception ee) {
-            logger.error(ee);
-        }
+        writeToFile(javaFile);
         return getPackageName() + "." + clsName;
-
-
-    }
-
-    private boolean isCreate = false;
-
-
-    public ClassName getOverride() {
-        return ClassName.get("java.lang", "Override");
-    }
-
-    private String getAdapterName(String group) {
-        return getModuleName() + getGroupName(group) + "MultipleAdapter";
     }
 
 
@@ -275,14 +247,16 @@ public class AdapterProcessor extends BaseProcessor {
 
         JavaFile javaFile = JavaFile.builder(getPackageName(), adapterClass)
                 .build();
-        try {
-            javaFile.writeTo(filer);
-        } catch (Exception ee) {
-            logger.error(ee);
-        }
-
+        writeToFile(javaFile);
     }
 
+    private ClassName getOverride() {
+        return ClassName.get("java.lang", "Override");
+    }
+
+    private String getAdapterName(String group) {
+        return getModuleName() + getGroupName(group) + "MultipleAdapter";
+    }
     private String getClsNameByRvPackage(String name) {
         return RECYCLE_VIEW_PACKAGE + "." + name;
     }
@@ -294,7 +268,6 @@ public class AdapterProcessor extends BaseProcessor {
     private String getGroupName(String group) {
         return StringUtils.getStrUpperFirst(group);
     }
-
 
     private String getModuleName() {
         return StringUtils.getStrUpperFirst(moduleName);

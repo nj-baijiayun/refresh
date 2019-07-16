@@ -16,7 +16,7 @@ import com.test.bean.DemoBean2;
  * @package_name com.test
  * @describe
  */
-@AdapterCreate(group = {"default","Test"})
+@AdapterCreate
 public class Demo2Holder extends BaseMultipleTypeViewHolder<DemoBean2> {
     public Demo2Holder(ViewGroup parent) {
         super(parent);
@@ -30,5 +30,15 @@ public class Demo2Holder extends BaseMultipleTypeViewHolder<DemoBean2> {
     @Override
     public void bindData(DemoBean2 model, int position, BaseRecyclerAdapter adapter) {
 
+    }
+
+    @Override
+    public boolean isNeedLongClickRootItemViewInHolder() {
+        return true;
+    }
+
+    @Override
+    public boolean isNeedClickRootItemViewInHolder() {
+        return true;
     }
 }

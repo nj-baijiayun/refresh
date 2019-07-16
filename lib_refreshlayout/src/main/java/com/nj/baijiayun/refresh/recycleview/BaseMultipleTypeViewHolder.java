@@ -70,6 +70,14 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     }
 
+    public void itemInnerViewLongClickCallBack(View v)
+    {
+        if (getBaseMultipleTypeRvAdapter().onItemLongClickListener != null) {
+            getBaseMultipleTypeRvAdapter().onItemLongClickListener.onItemLongClick(this, getClickPosition(), v, getClickModel());
+        }
+    }
+
+
     public Context getContext() {
         return context;
     }

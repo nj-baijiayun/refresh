@@ -1,6 +1,7 @@
 package com.nj.baijiayun.compiler;
 
 import com.nj.baijiayun.compiler.utils.Logger;
+import com.squareup.javapoet.JavaFile;
 
 import java.util.Set;
 
@@ -19,8 +20,18 @@ import javax.lang.model.element.TypeElement;
  * @describe
  */
 public class BaseProcessor extends AbstractProcessor {
-    public Logger logger;
-    public Filer filer;
+    Logger logger;
+    Filer filer;
+    private boolean isFirst = true;
+
+    boolean isFirstRun() {
+        if (isFirst) {
+            isFirst = false;
+            return true;
+        }
+
+        return false;
+    }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
@@ -35,5 +46,15 @@ public class BaseProcessor extends AbstractProcessor {
 
 
     }
+
+    public void writeToFile(JavaFile javaFile) {
+        try {
+            javaFile.writeTo(filer);
+        } catch (Exception ee) {
+            logger.error(ee);
+        }
+
+    }
+
 
 }

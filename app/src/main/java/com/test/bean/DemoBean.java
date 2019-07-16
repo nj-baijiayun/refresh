@@ -15,4 +15,13 @@ public class DemoBean implements IMultipleTypeModel {
     public int itemType() {
         return 0;
     }
+    private String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
