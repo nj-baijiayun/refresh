@@ -25,9 +25,6 @@ public class MyModelFactory2 extends BaseMultipleTypeModelFactroy<MultipleTypeMo
     public int holderClsArrayIndex(MultipleTypeModel2 model) {
         if (model.getType() == 1) {
             return 1;
-        }else if(model.getType()==2)
-        {
-            return 2;
         }
         return 0;
     }
