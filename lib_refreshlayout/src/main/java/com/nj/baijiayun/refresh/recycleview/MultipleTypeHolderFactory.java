@@ -10,10 +10,6 @@ import android.view.ViewGroup;
 
 public interface MultipleTypeHolderFactory {
 
-//    int createViewType();
-
-
-
     /**
      * 根据
      * @param parent RV的onCreateViewHolder回调的parent

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
  * @describe
  */
 @Deprecated
-public abstract class AbstractDefaultViewTypeRegisterFactory implements ViewTypeFactory {
+public abstract class AbstractDefaultViewTypeRegisterFactory implements MultipleTypeHolderFactory {
 
     @Override
-    public BaseMultTypeViewHolder createViewHolder(ViewGroup parent, int viewType) {
+    public BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int viewType) {
         return  CreateHolderHelper.autoCreateHolder(this.getClass(), viewType, parent);
     }
 

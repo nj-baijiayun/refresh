@@ -49,8 +49,8 @@ dependencies {
     api project(":lib_refreshlayout")
     implementation project(':annotations')
     annotationProcessor project(':compiler')
-//    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
-//    annotationProcessor 'com.nj.baijiayun:compiler:1.0.0-20190712.085646-3'
+//    implementation 'com.nj.baijiayun:annotations:1.0.0'
+//    annotationProcessor 'com.nj.baijiayun:compiler:1.0.1'
 //
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

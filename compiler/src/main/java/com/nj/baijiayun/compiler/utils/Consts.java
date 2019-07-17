@@ -29,12 +29,17 @@ public class Consts {
     public static final String PACKAGE = "com.nj.baijiayun.processor";
 
     // Custom interface
-    private static final String FACADE_PACKAGE = "com.alibaba.android.arouter.facade";
+    private static final String FACADE_PACKAGE = "com.nj.baijiayun";
     private static final String TEMPLATE_PACKAGE = ".template";
     private static final String SERVICE_PACKAGE = ".service";
     private static final String MODEL_PACKAGE = ".model";
 
     // Log
     static final String PREFIX_OF_LOGGER = PROJECT + "::Compiler ";
+
+
+    // Annotation type
+    public static final String ANNOTATION_TYPE_ADAPTER_CREATE = FACADE_PACKAGE + ".annotations.AdapterCreate";
+    public static final String ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE = FACADE_PACKAGE + ".annotations.ModelMultipleHolderCreate";
 
 }

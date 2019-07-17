@@ -18,7 +18,7 @@ import com.test.bean.DemoBean;
  * @package_name com.test
  * @describe
  */
-@AdapterCreate
+@AdapterCreate(group = {"demo","default"})
 public class DemoHolder extends BaseMultipleTypeViewHolder<DemoBean> {
     public DemoHolder(ViewGroup parent) {
         super(parent);

@@ -1,4 +1,4 @@
-package com.nj.baijiayun.compiler;
+package com.nj.baijiayun.compiler.model;
 
 import java.util.ArrayList;
 import java.util.List;

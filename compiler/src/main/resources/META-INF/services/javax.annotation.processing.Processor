@@ -1,3 +1,5 @@
 #com.nj.baijiayun.compiler.HolderProcessor
+#com.nj.baijiayun.compiler.AdapterProcessor
+
 com.nj.baijiayun.compiler.HolderNewProcessor
-com.nj.baijiayun.compiler.AdapterProcessor
+com.nj.baijiayun.compiler.NewAdapterProcessor

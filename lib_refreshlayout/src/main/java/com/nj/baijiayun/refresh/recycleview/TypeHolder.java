@@ -17,5 +17,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TypeHolder {
-    Class<? extends BaseMultTypeViewHolder> value();
+    Class<? extends BaseMultipleTypeViewHolder> value();
 }

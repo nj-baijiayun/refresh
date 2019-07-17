@@ -105,7 +105,15 @@ DemoAdapter adapter=new DemoAdapter(context);
 ```
 
 
+6. 混淆规则
+```
 
+###APP 内的adapter holder
+-keep public class * extends com.nj.baijiayun.refresh.recycleview.AbstractDefaultViewTypeRegisterFactory{*;}
+-keep public class * extends com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter{*;}
+-keep public class * extends com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder{*;}
+
+```
 
 
 ### 二、使用AdapterCreate  更加简洁 （推荐）
