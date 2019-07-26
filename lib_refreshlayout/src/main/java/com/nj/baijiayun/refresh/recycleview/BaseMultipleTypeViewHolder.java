@@ -14,7 +14,7 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     private Context context;
     private BaseMultipleTypeRvAdapter baseMultipleTypeRvAdapter;
-
+    private int viewType;
 
     public BaseMultipleTypeViewHolder(ViewGroup parent) {
         //临时占位,再替换
@@ -26,6 +26,7 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     /**
      * 绑定holder布局
+     *
      * @return int 布局id
      */
     public abstract int bindLayout();
@@ -70,8 +71,7 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     }
 
-    public void itemInnerViewLongClickCallBack(View v)
-    {
+    public void itemInnerViewLongClickCallBack(View v) {
         if (getBaseMultipleTypeRvAdapter().onItemLongClickListener != null) {
             getBaseMultipleTypeRvAdapter().onItemLongClickListener.onItemLongClick(this, getClickPosition(), v, getClickModel());
         }
@@ -80,5 +80,13 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     public Context getContext() {
         return context;
+    }
+
+    public int getViewType() {
+        return viewType;
+    }
+
+    public void setViewType(int viewType) {
+        this.viewType = viewType;
     }
 }

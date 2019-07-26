@@ -24,11 +24,11 @@ public class Demo2Factory implements MultipleTypeHolderFactory {
     @MultipleTypeHolder(holder = Demo2Holder.class, model = DemoBean2.class)
     @Override
     public int getViewType(Object object) {
-        return DemoFactoryHolderHelper.getViewType(object);
+        return 0;
     }
 
     @Override
     public BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int viewType) {
-        return DemoFactoryHolderHelper.createViewHolder(parent, viewType);
+        return null;
     }
 }

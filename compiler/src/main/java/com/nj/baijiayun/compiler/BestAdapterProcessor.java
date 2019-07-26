@@ -41,9 +41,9 @@ import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_TYPE_
  * @package_name com.nj.baijiayun.compiler
  * @describe
  */
-@SupportedAnnotationTypes({ANNOTATION_TYPE_ADAPTER_CREATE, ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE,ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE})
+@SupportedAnnotationTypes({ANNOTATION_TYPE_ADAPTER_CREATE, ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE, ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class NewAdapterProcessor extends BaseProcessor {
+public class BestAdapterProcessor extends BaseProcessor {
     private static final String DEFAULT_GROUP = "default";
     private static final String RECYCLE_VIEW_PACKAGE = "com.nj.baijiayun.refresh";
 
@@ -60,8 +60,14 @@ public class NewAdapterProcessor extends BaseProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
+
+        Map<String, GroupProcessorModel> groupMap = BestTypeModelHelper.getHolderClassArray(roundEnvironment);
+        java.util.List<String> holderClsName = BestTypeModelHelper.getHolderClsName(roundEnvironment);
+        int multipleTypeSize = holderClsName.size();
+        System.out.println("multipleTypeSize---->" + multipleTypeSize);
+
         Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(AdapterCreate.class);
-        Map<String, GroupProcessorModel> groupMap = MultipleTypeModelHelper.getHolderClassArray(roundEnvironment);
+
         for (Element e : elementsAnnotatedWith) {
             //需要按照group 分组
             AdapterCreate annotation = e.getAnnotation(AdapterCreate.class);
@@ -85,6 +91,7 @@ public class NewAdapterProcessor extends BaseProcessor {
                 List<Type> typeArguments = classType.getTypeArguments();
 
 
+                holderClsName.add(te.getQualifiedName().toString());
                 NormalModel normalModel = new NormalModel(te.getQualifiedName().toString(), typeArguments.get(0).toString());
                 groupModel.getNormalModels().add(normalModel);
             }
@@ -97,7 +104,7 @@ public class NewAdapterProcessor extends BaseProcessor {
             Map<String, String> adapterGroupMap = new HashMap<>();
             for (String key : groupMap.keySet()) {
                 GroupProcessorModel groupModel = groupMap.get(key);
-                createAdapter(createFactory(groupModel), groupModel.getGroup());
+                createAdapter(createFactory(groupModel, holderClsName, multipleTypeSize), groupModel.getGroup());
                 adapterGroupMap.put(groupModel.getGroup(), getPackageName() + "." + getAdapterName(groupModel.getGroup()));
             }
 
@@ -170,7 +177,7 @@ public class NewAdapterProcessor extends BaseProcessor {
     }
 
 
-    private String createFactory(GroupProcessorModel groupModel) {
+    private String createFactory(GroupProcessorModel groupModel, java.util.List<String> holderClsNames, int size) {
 
         String clsName = getAdapterFactoryName(groupModel.getGroup());
         String superClassName = getClsNameByRvPackage("recycleview.MultipleTypeHolderFactory");
@@ -178,37 +185,49 @@ public class NewAdapterProcessor extends BaseProcessor {
         StringBuilder caseCodeStr = new StringBuilder();
         StringBuilder modelCodeStr = new StringBuilder();
 
-        int index = 0;
+
+        for (int i = 0; i < holderClsNames.size(); i++) {
+            System.out.println("all--->" + holderClsNames.get(i));
+        }
         //普通model
         for (int i = 0; i < groupModel.getNormalModels().size(); i++) {
-            index++;
-            String caseCode = String.format("case %s : return new %s(parent);\n", String.valueOf(index), groupModel.getNormalModels().get(i).getHolderClsName());
-            String modelCode = String.format("if(object instanceof %s){return %s;}", groupModel.getNormalModels().get(i).getModelClsName(), String.valueOf(index));
+
+            System.out.println("holderClsNames--->" + groupModel.getNormalModels().get(i).getHolderClsName());
+            int type = holderClsNames.indexOf(groupModel.getNormalModels().get(i).getHolderClsName()) + 1;
+            String caseCode = String.format("case %s : return new %s(parent);\n", String.valueOf(type), groupModel.getNormalModels().get(i).getHolderClsName());
+            String modelCode = String.format("if(object instanceof %s){return %s;}", groupModel.getNormalModels().get(i).getModelClsName(), String.valueOf(type));
             caseCodeStr.append(caseCode);
             modelCodeStr.append(modelCode);
         }
 
         //多类型的model
 
+        //switch 只针对单个绑定的
+        caseCodeStr = new StringBuilder(String.format(" switch(type){%s}", caseCodeStr));
+
 
         for (int i = 0; i < groupModel.getMultipleModels().size(); i++) {
             MultipleModel multipleModel = groupModel.getMultipleModels().get(i);
             String modelName = multipleModel.getMultipleModelName();
-
             String changeModel = String.format("%s model=((%s)%s);", modelName, modelName, "object");
-            String modelCode = String.format("if(object instanceof %s){%s return %s+factory%s.holderClsArrayIndex(model);}", modelName, changeModel, String.valueOf(index + 1), i);
-
-            for (int j = 0; j < multipleModel.getMultipleModelHolderName().length; j++) {
-                index++;
-                String caseCode = String.format("case %s : return new %s(parent);\n", String.valueOf(index), multipleModel.getMultipleModelHolderName()[j]);
-                caseCodeStr.append(caseCode);
-            }
+            String modelCode = String.format("if(object instanceof %s){%s return modelMultipleHolderTypeMap.get(factory%s.getMultipleTypeHolderClass(model));}", modelName, changeModel, i);
             modelCodeStr.append(modelCode);
+
+        }
+        if (groupModel.getMultipleModels().size() > 0) {
+            String caseCode = " try {\n" +
+                    "            Class<? extends BaseMultipleTypeViewHolder> cls  = modelMultipleTypeHolderMap.get(type);\n" +
+                    "            return cls.getConstructor(parent.getClass()).newInstance(parent);\n" +
+                    "        } catch (Exception e) {\n" +
+                    "            e.printStackTrace();\n" +
+                    "        }";
+            caseCodeStr.append(caseCode);
 
         }
 
 
-        caseCodeStr = new StringBuilder(String.format(" switch(type){%s}  return null", caseCodeStr));
+        caseCodeStr.append("return null");
+
         modelCodeStr.append("return 0");
 
 
@@ -230,6 +249,7 @@ public class NewAdapterProcessor extends BaseProcessor {
         TypeSpec.Builder factoryClsBuilder = TypeSpec.classBuilder(clsName);
 
 
+        //构建factory
         for (int i = 0; i < groupModel.getMultipleModels().size(); i++) {
             String multipleModelFactoryName = groupModel.getMultipleModels().get(i).getMultipleModelFactoryName();
             FieldSpec fieldSpec = FieldSpec.builder(ClassName.bestGuess(multipleModelFactoryName), String.format("factory%s", String.valueOf(i)), Modifier.PRIVATE, Modifier.FINAL)
@@ -237,8 +257,49 @@ public class NewAdapterProcessor extends BaseProcessor {
             factoryClsBuilder.addField(fieldSpec);
 
         }
-        TypeSpec factoryCls = factoryClsBuilder
-                .addModifiers(Modifier.PUBLIC)
+        /**
+         *  private static final Map<Integer, Class<? extends BaseMultipleTypeViewHolder>> modelMultipleTypeHolderMap = new HashMap<>();
+         *     private static final Map<Class<? extends BaseMultipleTypeViewHolder>, Integer> modelMultipleHolderTypeMap = new HashMap<>();
+         *
+         *     static {
+         *         modelMultipleTypeHolderMap.put(1, TestHolder2.class);
+         *         modelMultipleHolderTypeMap.put(TestHolder2.class, 10);
+         *     }
+         */
+        //构建map
+
+
+        TypeSpec.Builder factoryBuilder = factoryClsBuilder
+                .addModifiers(Modifier.PUBLIC);
+
+        if (groupModel.getMultipleModels().size() > 0) {
+
+            FieldSpec modelMultipleTypeHolderMap = FieldSpec.builder(ClassName.bestGuess("Map <Integer, Class<? extends BaseMultipleTypeViewHolder>>"),
+                    "modelMultipleTypeHolderMap", Modifier.STATIC, Modifier.FINAL).initializer("new java.util.HashMap()", "").build();
+
+            FieldSpec modelMultipleHolderTypeMap = FieldSpec.builder(ClassName.bestGuess("Map<Class<? extends BaseMultipleTypeViewHolder>, Integer>"),
+                    "modelMultipleHolderTypeMap", Modifier.STATIC, Modifier.FINAL).initializer("new java.util.HashMap()", "").build();
+
+            //占位
+            factoryClsBuilder.addField(FieldSpec.builder(Map.class, "map").build()).addJavadoc("$L", "map用来占位导包，还不知道如何直接写带有范型map申明的导包，所以用一个map占位导包");
+            factoryClsBuilder.addField(modelMultipleTypeHolderMap);
+            factoryClsBuilder.addField(modelMultipleHolderTypeMap);
+            StringBuilder staticBlockStr = new StringBuilder();
+
+            //添加modelMultipleTypeHolderMap
+            for (int i = 0; i < size; i++) {
+                staticBlockStr.append(String.format("modelMultipleTypeHolderMap.put(%s, %s);\n", String.valueOf(i + 1), holderClsNames.get(i) + ".class"));
+            }
+            //add modelMultipleHolderTypeMap
+            for (int i = 0; i < size; i++) {
+                staticBlockStr.append(String.format("modelMultipleHolderTypeMap.put(%s, %s);\n", holderClsNames.get(i) + ".class", String.valueOf(i + 1)));
+            }
+            factoryBuilder.addStaticBlock(CodeBlock.of("$L", staticBlockStr));
+
+        }
+
+
+        TypeSpec factoryCls = factoryBuilder
                 .addMethod(getViewType)
                 .addMethod(createViewHolder)
                 .addSuperinterface(ClassName.bestGuess(superClassName))
@@ -314,7 +375,6 @@ public class NewAdapterProcessor extends BaseProcessor {
     private String getAdapterHelperName() {
         return getModuleName() + "AdapterHelper";
     }
-
 
 
     private String getAdapterFactoryName(String group) {

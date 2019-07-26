@@ -41,5 +41,6 @@ public class Consts {
     // Annotation type
     public static final String ANNOTATION_TYPE_ADAPTER_CREATE = FACADE_PACKAGE + ".annotations.AdapterCreate";
     public static final String ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE = FACADE_PACKAGE + ".annotations.ModelMultipleHolderCreate";
+    public static final String ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE = FACADE_PACKAGE + ".annotations.ModelTypeHolderCreate";
 
 }

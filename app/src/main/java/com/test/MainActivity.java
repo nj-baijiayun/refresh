@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baijiayun.R;
-import com.nj.baijiayun.processor.DemoAdapterHelper;
+//import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
@@ -18,6 +18,7 @@ import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
+import com.test.adpter.DemoAdapter;
 import com.test.bean.DemoBean;
 import com.test.bean.DemoBean2;
 
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-        demoAdapter = DemoAdapterHelper.getAdapter(this);
+        demoAdapter = new DemoAdapter(this);
 
         demoAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override

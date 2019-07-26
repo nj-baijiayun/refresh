@@ -31,7 +31,6 @@ import javax.lang.model.type.TypeMirror;
 
 import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_ADAPTER_CREATE;
 import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE;
-import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE;
 
 /**
  * @author chengang
@@ -41,9 +40,9 @@ import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_TYPE_
  * @package_name com.nj.baijiayun.compiler
  * @describe
  */
-@SupportedAnnotationTypes({ANNOTATION_TYPE_ADAPTER_CREATE, ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE,ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE})
+@SupportedAnnotationTypes({ANNOTATION_TYPE_ADAPTER_CREATE, ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class NewAdapterProcessor extends BaseProcessor {
+public class HoldeAddTypeAdapterProcessor extends BaseProcessor {
     private static final String DEFAULT_GROUP = "default";
     private static final String RECYCLE_VIEW_PACKAGE = "com.nj.baijiayun.refresh";
 

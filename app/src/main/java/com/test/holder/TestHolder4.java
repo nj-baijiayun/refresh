@@ -2,6 +2,7 @@ package com.test.holder;
 
 import android.view.ViewGroup;
 
+import com.nj.baijiayun.annotations.ModelTypeHolderCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.test.bean.MultipleTypeModel2;
@@ -14,6 +15,7 @@ import com.test.bean.MultipleTypeModel2;
  * @package_name com.test.holder
  * @describe
  */
+@ModelTypeHolderCreate
 public class TestHolder4 extends BaseMultipleTypeViewHolder<MultipleTypeModel2> {
     public TestHolder4(ViewGroup parent) {
         super(parent);

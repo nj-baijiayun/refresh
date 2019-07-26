@@ -1,10 +1,10 @@
 package com.test.factory;
 
-import com.nj.baijiayun.annotations.ModelMultipleHolderCreate;
-import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelFactroy;
+import com.nj.baijiayun.annotations.ModelTypeHolderCreate;
+import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelHolderFactory;
+import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.test.bean.MultipleTypeModel2;
 import com.test.holder.TestHolder4;
-import com.test.holder.TestHolder5;
 
 /**
  * @author chengang
@@ -17,16 +17,11 @@ import com.test.holder.TestHolder5;
 
 //解析出需要 插入代码的model,
 //需要把这段代码插入到判断里面去  其实返回一个model holder对应的列表
-@ModelMultipleHolderCreate(holder = {TestHolder4.class, TestHolder5.class})
-public class MyModelFactory2 extends BaseMultipleTypeModelFactroy<MultipleTypeModel2> {
-
+@ModelTypeHolderCreate
+public class MyModelFactory2 extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel2> {
 
     @Override
-    public int holderClsArrayIndex(MultipleTypeModel2 model) {
-        if (model.getType() == 1) {
-            return 1;
-        }
-        return 0;
+    public Class<? extends BaseMultipleTypeViewHolder> getMultipleTypeHolderClass(MultipleTypeModel2 model) {
+        return TestHolder4.class;
     }
-
 }
