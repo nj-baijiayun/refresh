@@ -2,6 +2,7 @@ package com.nj.baijiayun.compiler;
 
 import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.compiler.model.GroupModel;
+import com.nj.baijiayun.compiler.processor.BaseProcessor;
 import com.nj.baijiayun.compiler.utils.Consts;
 import com.nj.baijiayun.compiler.utils.StringUtils;
 import com.squareup.javapoet.ClassName;
@@ -270,7 +271,8 @@ public class AdapterProcessor extends BaseProcessor {
         return StringUtils.getStrUpperFirst(group);
     }
 
-    private String getModuleName() {
+    @Override
+    public String getModuleName() {
         return StringUtils.getStrUpperFirst(moduleName);
     }
 }

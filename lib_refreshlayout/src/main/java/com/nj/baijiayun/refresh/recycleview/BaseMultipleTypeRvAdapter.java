@@ -43,11 +43,11 @@ public abstract class BaseMultipleTypeRvAdapter<T> extends BaseRecyclerAdapter<T
 
     @Override
     public int getItemViewType(int position) {
-        int viewType = mFactory.getViewType(mItems.get(position));
-        if (viewType == 0) {
-            throw new IllegalArgumentException("Please Check getViewType(Object object) Method, Model " + mItems.get(position).getClass() + " unbind type");
-        }
-        return viewType;
+//        int viewType = mFactory.getViewType(mItems.get(position));
+//        if (viewType == 0) {
+//            throw new IllegalArgumentException("Please Check getViewType(Object object) Method, Model " + mItems.get(position).getClass() + " unbind type");
+//        }
+        return mFactory.getViewType(mItems.get(position));
     }
 
 

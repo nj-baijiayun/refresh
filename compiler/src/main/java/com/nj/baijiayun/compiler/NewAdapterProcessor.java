@@ -4,6 +4,7 @@ import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.compiler.model.GroupProcessorModel;
 import com.nj.baijiayun.compiler.model.MultipleModel;
 import com.nj.baijiayun.compiler.model.NormalModel;
+import com.nj.baijiayun.compiler.processor.BaseProcessor;
 import com.nj.baijiayun.compiler.utils.Consts;
 import com.nj.baijiayun.compiler.utils.StringUtils;
 import com.squareup.javapoet.ClassName;
@@ -71,8 +72,7 @@ public class NewAdapterProcessor extends BaseProcessor {
             for (String group : groups) {
 
                 if (groupMap.get(group) == null) {
-                    GroupProcessorModel v = new GroupProcessorModel();
-                    v.setGroup(group);
+                    GroupProcessorModel v = new GroupProcessorModel(group);
                     groupMap.put(group, v);
                 }
 
@@ -331,7 +331,8 @@ public class NewAdapterProcessor extends BaseProcessor {
     }
 
 
-    private String getModuleName() {
+    @Override
+    public String getModuleName() {
         return StringUtils.getStrUpperFirst(moduleName);
     }
 }

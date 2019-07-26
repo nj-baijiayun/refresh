@@ -49,8 +49,7 @@ public class MultipleTypeModelHelper {
 
             for (String group : groups) {
                 if (groupMap.get(group) == null) {
-                    GroupProcessorModel groupModel = new GroupProcessorModel();
-                    groupModel.setGroup(group);
+                    GroupProcessorModel groupModel = new GroupProcessorModel(group);
 
                     MultipleModel multipleModel = new MultipleModel();
 

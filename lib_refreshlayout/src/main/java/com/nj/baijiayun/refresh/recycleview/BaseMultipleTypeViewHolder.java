@@ -24,6 +24,7 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
     }
 
 
+
     /**
      * 绑定holder布局
      *

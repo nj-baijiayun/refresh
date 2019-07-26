@@ -1,11 +1,6 @@
 package com.test.factory;
 
-import com.nj.baijiayun.annotations.ModelMultipleHolderCreate;
-import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelFactroy;
-import com.test.bean.MultipleTypeModel;
-import com.test.holder.TestHolder1;
-import com.test.holder.TestHolder2;
-import com.test.holder.TestHolder3;
+import com.nj.baijiayun.annotations.ModelMultiTypeHolderCreate;
 
 /**
  * @author chengang
@@ -18,19 +13,9 @@ import com.test.holder.TestHolder3;
 
 //解析出需要 插入代码的model,
 //需要把这段代码插入到判断里面去  其实返回一个model holder对应的列表
-@ModelMultipleHolderCreate(holder = {TestHolder1.class, TestHolder2.class, TestHolder3.class},group = {"default","demo"})
-public class MyModelFactory extends BaseMultipleTypeModelFactroy<MultipleTypeModel> {
+@ModelMultiTypeHolderCreate
+public class MyModelFactory extends MyModelFactory3 {
 
 
-    @Override
-    public int holderClsArrayIndex(MultipleTypeModel model) {
-        if (model.getType() == 1) {
-            return 1;
-        }else if(model.getType()==2)
-        {
-            return 2;
-        }
-        return 0;
-    }
 
 }

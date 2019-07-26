@@ -2,22 +2,19 @@ package com.test.holder;
 
 import android.view.ViewGroup;
 
-import com.nj.baijiayun.annotations.ModelMultiTypeHolderCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
-import com.test.bean.MultipleTypeModel2;
 
 /**
  * @author chengang
- * @date 2019-07-17
+ * @date 2019-07-26
  * @email chenganghonor@gmail.com
  * @QQ 1410488687
  * @package_name com.test.holder
  * @describe
  */
-@ModelMultiTypeHolderCreate
-public class TestHolder4 extends BaseMultipleTypeViewHolder<MultipleTypeModel2> {
-    public TestHolder4(ViewGroup parent) {
+public class TestNobindHolder extends BaseMultipleTypeViewHolder<Integer> {
+    public TestNobindHolder(ViewGroup parent) {
         super(parent);
     }
 
@@ -27,7 +24,7 @@ public class TestHolder4 extends BaseMultipleTypeViewHolder<MultipleTypeModel2> 
     }
 
     @Override
-    public void bindData(MultipleTypeModel2 model, int position, BaseRecyclerAdapter adapter) {
+    public void bindData(Integer model, int position, BaseRecyclerAdapter adapter) {
 
     }
 }

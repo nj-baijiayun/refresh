@@ -1,6 +1,7 @@
 package com.nj.baijiayun.compiler;
 
 import com.nj.baijiayun.annotations.HolderCreate;
+import com.nj.baijiayun.compiler.processor.BaseProcessor;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;

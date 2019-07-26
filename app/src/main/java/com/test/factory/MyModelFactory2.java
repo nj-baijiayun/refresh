@@ -1,6 +1,6 @@
 package com.test.factory;
 
-import com.nj.baijiayun.annotations.ModelTypeHolderCreate;
+import com.nj.baijiayun.annotations.ModelMultiTypeHolderCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelHolderFactory;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.test.bean.MultipleTypeModel2;
@@ -17,7 +17,7 @@ import com.test.holder.TestHolder4;
 
 //解析出需要 插入代码的model,
 //需要把这段代码插入到判断里面去  其实返回一个model holder对应的列表
-@ModelTypeHolderCreate
+@ModelMultiTypeHolderCreate(group = {"test","default"})
 public class MyModelFactory2 extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel2> {
 
     @Override

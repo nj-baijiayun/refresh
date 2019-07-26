@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baijiayun.R;
-//import com.nj.baijiayun.processor.DemoAdapterHelper;
+import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
@@ -18,12 +18,16 @@ import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
-import com.test.adpter.DemoAdapter;
+import com.test.adpter.DemoHolder;
 import com.test.bean.DemoBean;
 import com.test.bean.DemoBean2;
+import com.test.bean.MultipleTypeModel;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.nj.baijiayun.processor.DemoAdapterHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-        demoAdapter = new DemoAdapter(this);
+        demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
 
         demoAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override
@@ -56,6 +60,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        try {
+            DemoHolder demoHolder = DemoHolder.class.getConstructor(ViewGroup.class).newInstance(nxRefreshView);
+            System.out.println("demoHolder---->" + demoHolder);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
 
         demoAdapter.setOnItemLongClickListener(new BaseRecyclerAdapter.OnItemLongClickListener() {
             @Override
@@ -68,6 +84,17 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView.setAdapter(demoAdapter);
 
 
+
+        for (int i = 0; i < 40; i++) {
+            MultipleTypeModel e = new MultipleTypeModel();
+
+            if (i % 2 == 0) {
+                e.setType(1);
+            } else {
+                e.setType(2);
+            }
+            datas.add(e);
+        }
         for (int i = 0; i < 40; i++) {
             if (i % 2 == 0) {
                 datas.add(new DemoBean());

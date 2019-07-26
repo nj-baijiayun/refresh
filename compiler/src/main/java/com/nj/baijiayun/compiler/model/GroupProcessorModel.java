@@ -13,9 +13,13 @@ import java.util.List;
  */
 public class GroupProcessorModel {
 
+
     private String group;
     private List<NormalModel> normalModels;
     private List<MultipleModel> multipleModels;
+    public GroupProcessorModel(String group) {
+        this.group = group;
+    }
 
     public List<MultipleModel> getMultipleModels() {
         if (multipleModels == null) {

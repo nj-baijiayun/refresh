@@ -1,8 +1,12 @@
-package com.nj.baijiayun.compiler;
+package com.nj.baijiayun.compiler.processor;
 
 import com.nj.baijiayun.compiler.utils.Logger;
+import com.nj.baijiayun.compiler.utils.StringUtils;
 import com.squareup.javapoet.JavaFile;
 
+import org.apache.commons.collections4.MapUtils;
+
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -10,6 +14,9 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.TypeElement;
+
+import static com.nj.baijiayun.compiler.utils.Consts.KEY_MODULE_NAME;
+import static com.nj.baijiayun.compiler.utils.Consts.NO_MODULE_NAME_TIPS;
 
 /**
  * @author chengang
@@ -20,11 +27,12 @@ import javax.lang.model.element.TypeElement;
  * @describe
  */
 public class BaseProcessor extends AbstractProcessor {
-    Logger logger;
-    Filer filer;
+    public Logger logger;
+    public Filer filer;
     private boolean isFirst = true;
+    String moduleName = null;
 
-    boolean isFirstRun() {
+    public boolean isFirstRun() {
         if (isFirst) {
             isFirst = false;
             return true;
@@ -43,9 +51,21 @@ public class BaseProcessor extends AbstractProcessor {
         super.init(processingEnvironment);
         filer = processingEnv.getFiler();
         logger = new Logger(processingEnv.getMessager());
+        Map<String, String> options = processingEnv.getOptions();
+        if (MapUtils.isNotEmpty(options)) {
+            moduleName = options.get(KEY_MODULE_NAME);
+        }
+        if (moduleName != null && moduleName.length() > 0) {
+            moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
 
+            logger.info("The user has configuration the module name, it was [" + moduleName + "]");
+        } else {
+            logger.error(NO_MODULE_NAME_TIPS);
+            throw new RuntimeException("AdapterCreate::Compiler >>> No module name, for more information, look at gradle log.");
+        }
 
     }
+
 
     public void writeToFile(JavaFile javaFile) {
         try {
@@ -54,6 +74,10 @@ public class BaseProcessor extends AbstractProcessor {
             logger.error(ee);
         }
 
+    }
+
+    public String getModuleName() {
+        return StringUtils.getStrUpperFirst(moduleName);
     }
 
 

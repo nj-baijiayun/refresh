@@ -33,12 +33,20 @@ public class Consts {
     private static final String TEMPLATE_PACKAGE = ".template";
     private static final String SERVICE_PACKAGE = ".service";
     private static final String MODEL_PACKAGE = ".model";
-
-    // Log
+    public static final String NO_MODULE_NAME_TIPS = "These no module name, at 'build.gradle', like :\n" +
+            "android {\n" +
+            "    defaultConfig {\n" +
+            "        ...\n" +
+            "        javaCompileOptions {\n" +
+            "            annotationProcessorOptions {\n" +
+            "                arguments = [moduleName: project.getName()]\n" +
+            "            }\n" +
+            "        }\n" +
+            "    }\n" +
+            "}\n";
     static final String PREFIX_OF_LOGGER = PROJECT + "::Compiler ";
 
-
-    // Annotation type
+    public static final String KEY_MODULE_NAME = "moduleName";
     public static final String ANNOTATION_TYPE_ADAPTER_CREATE = FACADE_PACKAGE + ".annotations.AdapterCreate";
     public static final String ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE = FACADE_PACKAGE + ".annotations.ModelMultipleHolderCreate";
     public static final String ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE = FACADE_PACKAGE + ".annotations.ModelTypeHolderCreate";
