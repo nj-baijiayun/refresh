@@ -1,6 +1,6 @@
 package com.nj.baijiayun.compiler;
 
-import com.nj.baijiayun.annotations.ModelMultiTypeHolderCreate;
+import com.nj.baijiayun.annotations.ModelMultiTypeAdapterCreate;
 import com.nj.baijiayun.compiler.model.GroupProcessorModel;
 import com.nj.baijiayun.compiler.model.MultipleModel;
 import com.nj.baijiayun.compiler.utils.TypeUtils;
@@ -24,11 +24,12 @@ import javax.lang.model.element.TypeElement;
  * @package_name com.nj.baijiayun.compiler
  * @describe
  */
-public class BestTypeModelHelper {
+@Deprecated
+public class HolderTypeModelHelper {
 
 
     static List<String> getModelTypeHolderClsName(RoundEnvironment roundEnvironment) {
-        Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeHolderCreate.class);
+        Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeAdapterCreate.class);
 
         List<String> result = new ArrayList<>();
         for (Element e : elementsAnnotatedWith) {
@@ -55,7 +56,7 @@ public class BestTypeModelHelper {
 
     static Map<String, GroupProcessorModel> getHolderClassArray(RoundEnvironment roundEnvironment) {
         Map<String, GroupProcessorModel> groupMap = new HashMap<>();
-        Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeHolderCreate.class);
+        Set<? extends Element> elementsAnnotatedWith = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeAdapterCreate.class);
 
         for (Element e : elementsAnnotatedWith) {
 
@@ -64,8 +65,8 @@ public class BestTypeModelHelper {
             if (!TypeUtils.isSuperClassContains(te,baseFactoryName)) {
                 continue;
             }
-            String realClassType = BestAdapterProcessor.getRealClassType(te, baseFactoryName);
-            ModelMultiTypeHolderCreate annotation = e.getAnnotation(ModelMultiTypeHolderCreate.class);
+            String realClassType = HolderAdapterProcessor.getRealClassType(te, baseFactoryName);
+            ModelMultiTypeAdapterCreate annotation = e.getAnnotation(ModelMultiTypeAdapterCreate.class);
             String[] groups = annotation.group();
 
             for (String group : groups) {

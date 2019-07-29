@@ -1,7 +1,7 @@
 package com.nj.baijiayun.compiler.processor;
 
 import com.nj.baijiayun.annotations.AdapterCreate;
-import com.nj.baijiayun.annotations.ModelMultiTypeHolderCreate;
+import com.nj.baijiayun.annotations.ModelMultiTypeAdapterCreate;
 import com.nj.baijiayun.compiler.model.GroupProcessorModel;
 import com.nj.baijiayun.compiler.model.MultipleModel;
 import com.nj.baijiayun.compiler.model.NormalModel;
@@ -56,7 +56,7 @@ public class AdapterProcessor extends BaseProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
         if (CollectionUtils.isNotEmpty(annotations)) {
-            Set<? extends Element> modelMultiTypeElements = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeHolderCreate.class);
+            Set<? extends Element> modelMultiTypeElements = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeAdapterCreate.class);
 
             Set<? extends Element> holderElements = roundEnvironment.getElementsAnnotatedWith(AdapterCreate.class);
             try {
@@ -97,7 +97,7 @@ public class AdapterProcessor extends BaseProcessor {
                 continue;
             }
             String realClassType = TypeUtils.getTopSuperClsType(te, BASE_MULTI_TYPE_MODEL_FACTORY);
-            ModelMultiTypeHolderCreate annotation = e.getAnnotation(ModelMultiTypeHolderCreate.class);
+            ModelMultiTypeAdapterCreate annotation = e.getAnnotation(ModelMultiTypeAdapterCreate.class);
             for (String group : annotation.group()) {
                 MultipleModel multipleModel = new MultipleModel();
                 multipleModel.setMultipleModelFactoryName(te.getQualifiedName().toString());
@@ -142,7 +142,7 @@ public class AdapterProcessor extends BaseProcessor {
 
     private String createAdapterCls(String factoryName, String group) {
 
-        String clsName = getClsNameByGroup(group, getAdapterName(group));
+        String clsName = getClsNameByGroup(group, "Adapter");
         MethodSpec constructMethod = MethodSpec.constructorBuilder()
                 .addModifiers(Modifier.PUBLIC)
                 .addParameter(ClassName.bestGuess("android.content.Context"), "context")
@@ -177,7 +177,8 @@ public class AdapterProcessor extends BaseProcessor {
 
 
         String createFactoryCls = getClsNameByGroup(groupProcessorModel.getGroup(), "Factory");
-        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(createFactoryCls);
+        TypeSpec.Builder classBuilder = TypeSpec.classBuilder(createFactoryCls)
+                .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
         classBuilder.superclass(MULTI_TYPE_HOLDER_FACTORY_IMPL);
         StringBuilder getViewTypeCodeStrBuilder = new StringBuilder();
         //model多类型
@@ -256,7 +257,7 @@ public class AdapterProcessor extends BaseProcessor {
 
         for (String key : adapterGroupMap.keySet()) {
 
-            MethodSpec getAdapterNoGroup = MethodSpec.methodBuilder(MessageFormat.format("get{0}Adapter",StringUtils.getStrUpperFirst(key)))
+            MethodSpec getAdapterNoGroup = MethodSpec.methodBuilder(MessageFormat.format("get{0}Adapter", StringUtils.getStrUpperFirst(key)))
                     .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
                     .returns(BASE_MULTI_TYPE_ADAPTER)
                     .addParameter(ClassName.bestGuess("android.content.Context"), "context")
@@ -292,10 +293,6 @@ public class AdapterProcessor extends BaseProcessor {
 
     private String getClsName(String name) {
         return getModuleName() + name;
-    }
-
-    private String getAdapterName(String group) {
-        return getModuleName() + StringUtils.getStrUpperFirst(group) + "Adapter";
     }
 
 

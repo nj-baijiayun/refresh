@@ -14,7 +14,7 @@ import com.test.holder.TestHolder2;
  * @package_name com.test.factory
  * @describe
  */
-public class MyModelFactory3 extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel> {
+public class ModelNobindFactory extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel> {
 
     @Override
     public Class<? extends BaseMultipleTypeViewHolder> getMultipleTypeHolderClass(MultipleTypeModel model) {

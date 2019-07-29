@@ -16,6 +16,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
 public @interface AdapterCreate {
-    String[] group() default "default";
-    int type() default 0;
+    String[] group() default Consts.DEFAULT_GROUP;
 }

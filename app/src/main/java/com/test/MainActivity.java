@@ -18,12 +18,10 @@ import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
-import com.test.adpter.DemoHolder;
 import com.test.bean.DemoBean;
 import com.test.bean.DemoBean2;
 import com.test.bean.MultipleTypeModel;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,18 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        try {
-            DemoHolder demoHolder = DemoHolder.class.getConstructor(ViewGroup.class).newInstance(nxRefreshView);
-            System.out.println("demoHolder---->" + demoHolder);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+
 
         demoAdapter.setOnItemLongClickListener(new BaseRecyclerAdapter.OnItemLongClickListener() {
             @Override

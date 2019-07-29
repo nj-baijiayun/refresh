@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD,ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Repeatable(AuthValidations.class)
+@Deprecated
 public @interface MultipleTypeHolder {
     Class<? extends BaseMultipleTypeViewHolder> holder();
 

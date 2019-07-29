@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.CLASS)
-public @interface ModelMultiTypeHolderCreate {
-    String[] group() default "default";
+public @interface ModelMultiTypeAdapterCreate {
+    String[] group() default Consts.DEFAULT_GROUP;
 
 }

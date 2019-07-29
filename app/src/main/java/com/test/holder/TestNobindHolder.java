@@ -2,8 +2,10 @@ package com.test.holder;
 
 import android.view.ViewGroup;
 
+import com.baijiayun.R;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
+import com.test.bean.DemoBean;
 
 /**
  * @author chengang
@@ -13,18 +15,18 @@ import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
  * @package_name com.test.holder
  * @describe
  */
-public class TestNobindHolder extends BaseMultipleTypeViewHolder<Integer> {
+public class TestNobindHolder extends BaseMultipleTypeViewHolder<DemoBean> {
     public TestNobindHolder(ViewGroup parent) {
         super(parent);
     }
 
     @Override
     public int bindLayout() {
-        return 0;
+        return R.layout.item_holder_1;
     }
 
     @Override
-    public void bindData(Integer model, int position, BaseRecyclerAdapter adapter) {
+    public void bindData(DemoBean model, int position, BaseRecyclerAdapter adapter) {
 
     }
 }
