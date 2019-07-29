@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     private Context context;
-    private BaseMultipleTypeRvAdapter baseMultipleTypeRvAdapter;
     private int viewType;
 
     public BaseMultipleTypeViewHolder(ViewGroup parent) {
@@ -22,7 +21,10 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
         this.context = parent.getContext();
         setItemView(LayoutInflater.from(parent.getContext()).inflate(bindLayout(), parent, false));
     }
-
+    @Deprecated
+    public BaseMultipleTypeRvAdapter getBaseMultipleTypeRvAdapter() {
+        return (BaseMultipleTypeRvAdapter) getAdapter();
+    }
 
 
     /**
@@ -32,14 +34,7 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
      */
     public abstract int bindLayout();
 
-    public void setBaseMultipleTypeRvAdapter(BaseMultipleTypeRvAdapter baseMultipleTypeRvAdapter) {
-        this.baseMultipleTypeRvAdapter = baseMultipleTypeRvAdapter;
-    }
 
-
-    public BaseMultipleTypeRvAdapter getBaseMultipleTypeRvAdapter() {
-        return baseMultipleTypeRvAdapter;
-    }
 
     /**
      * 绑定数据
@@ -53,12 +48,15 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
 
     public int getClickPosition() {
         BaseViewHolder baseViewHolder = (BaseViewHolder) this.convertView.getTag();
-        return baseViewHolder.getAdapterPosition();
+        return baseViewHolder.getAdapterPositionExcludeHeadViewCount();
     }
 
     public T getClickModel() {
-        return (T) getBaseMultipleTypeRvAdapter().getItem(getClickPosition());
+        return (T) getAdapter().getItem(getClickPosition());
     }
+
+
+
 
     /**
      * 用来回调内部的view 点击，回到适配器设置点击的地方
@@ -66,15 +64,15 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
      * @param v v
      */
     public void itemInnerViewClickCallBack(View v) {
-        if (getBaseMultipleTypeRvAdapter().onItemClickListener != null) {
-            getBaseMultipleTypeRvAdapter().onItemClickListener.onItemClick(this, getClickPosition(), v, getClickModel());
+        if (getAdapter().onItemClickListener != null) {
+            getAdapter().onItemClickListener.onItemClick(this, getClickPosition(), v, getClickModel());
         }
 
     }
 
     public void itemInnerViewLongClickCallBack(View v) {
-        if (getBaseMultipleTypeRvAdapter().onItemLongClickListener != null) {
-            getBaseMultipleTypeRvAdapter().onItemLongClickListener.onItemLongClick(this, getClickPosition(), v, getClickModel());
+        if (getAdapter().onItemLongClickListener != null) {
+            getAdapter().onItemLongClickListener.onItemLongClick(this, getClickPosition(), v, getClickModel());
         }
     }
 

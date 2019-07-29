@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,14 +14,20 @@ import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
+import com.nj.baijiayun.refresh.recycleview.extend.HeaderAndFooterRecyclerViewAdapter;
+import com.nj.baijiayun.refresh.recycleview.extend.RecyclerViewUtils;
 import com.nj.baijiayun.refresh.smartrv.INxOnRefreshListener;
 import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
+import com.test.adapter.ExpandHelper;
+import com.test.bean.AreaBean;
+import com.test.bean.CityBean;
 import com.test.bean.DemoBean;
 import com.test.bean.DemoBean2;
 import com.test.bean.MultipleTypeModel;
+import com.test.bean.ProvinceBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView.setEnableLoadMore(true);
         demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
 
+        addPCA();
+
         demoAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseViewHolder holder, int position, View view, Object item) {
@@ -68,29 +77,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        nxRefreshView.setAdapter(demoAdapter);
+        HeaderAndFooterRecyclerViewAdapter headerAndFooterRecyclerViewAdapter = new HeaderAndFooterRecyclerViewAdapter();
+        headerAndFooterRecyclerViewAdapter.setAdapter(demoAdapter);
+
+        nxRefreshView.setAdapter(headerAndFooterRecyclerViewAdapter);
 
 
-
-        for (int i = 0; i < 40; i++) {
-            MultipleTypeModel e = new MultipleTypeModel();
-
-            if (i % 2 == 0) {
-                e.setType(1);
-            } else {
-                e.setType(2);
-            }
-            datas.add(e);
-        }
-        for (int i = 0; i < 40; i++) {
-            if (i % 2 == 0) {
-                datas.add(new DemoBean());
-            } else {
-                datas.add(new DemoBean2());
-
-            }
-        }
+        addNormalData();
         demoAdapter.addAll(datas);
+        RecyclerViewUtils.setHeaderView(nxRefreshView.getRecyclerView(),new Button(this));
+
 
         NxRefreshConfig.init(new DefaultExtra());
 
@@ -121,6 +117,65 @@ public class MainActivity extends AppCompatActivity {
         });
 
         nxRefreshView.notifyDataSetChanged();
+    }
+
+    private void addNormalData() {
+        for (int i = 0; i < 40; i++) {
+            MultipleTypeModel e = new MultipleTypeModel();
+
+            if (i % 2 == 0) {
+                e.setType(1);
+            } else {
+                e.setType(2);
+            }
+            datas.add(e);
+        }
+        for (int i = 0; i < 40; i++) {
+            if (i % 2 == 0) {
+                datas.add(new DemoBean());
+            } else {
+                datas.add(new DemoBean2());
+
+            }
+        }
+    }
+
+
+    private void addPCA() {
+        List<AreaBean> datas = new ArrayList<>();
+        for (int i = 0; i < 110; i++) {
+            AreaBean areaBean = new AreaBean();
+            areaBean.setTitle(i + "区");
+            datas.add(areaBean);
+        }
+
+        List<CityBean> cityBeans = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            CityBean cityBean = new CityBean();
+            cityBean.setTitle(i + "市");
+            cityBean.setAreaBeans(datas.subList(i * 10, (i + 1) * 10));
+            cityBeans.add(cityBean);
+        }
+        List<ProvinceBean> provinceBeans = new ArrayList<>();
+        ProvinceBean provinceBean = new ProvinceBean();
+        provinceBean.setTitle("0省");
+        provinceBean.getTreeItemAttr().onExpand();
+        provinceBean.setCityBeans(cityBeans.subList(0,5));
+
+        provinceBean.getChilds().get(0).getTreeItemAttr().onExpand();
+
+        ProvinceBean provinceBean2 = new ProvinceBean();
+        provinceBean2.setTitle("1省");
+        provinceBean2.getTreeItemAttr().onExpand();
+        provinceBean2.setCityBeans(cityBeans.subList(5,10));
+//        provinceBean2.getChilds().get(2).getTreeItemAttr().onExpand();
+
+        demoAdapter.addItem(provinceBean);
+        demoAdapter.addItem(provinceBean2);
+
+        ExpandHelper.initExpand(demoAdapter);
+
+
     }
 
     RecyclerView.Adapter adapter = new RecyclerView.Adapter() {

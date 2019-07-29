@@ -67,17 +67,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         if (baseViewHolder == null) {
             throw new NullPointerException("baseViewHolder not allow empty");
         }
+        baseViewHolder.setAdapter(this);
+        baseViewHolder.setRecyclerView((RecyclerView) parent);
         baseViewHolder.convertView.setTag(baseViewHolder);
         if (!baseViewHolder.isNeedClickRootItemViewInHolder()) {
             //这个holderItemHolder只是一个封装而已
             baseViewHolder.getConvertView().setOnClickListener(holderItemViewOnClickListener);
         }
-        if(!baseViewHolder.isNeedLongClickRootItemViewInHolder())
-        {
+        if (!baseViewHolder.isNeedLongClickRootItemViewInHolder()) {
             baseViewHolder.getConvertView().setOnLongClickListener(holderItemViewOnClickListener);
         }
-
-
         return baseViewHolder;
     }
 
@@ -187,11 +186,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
 
 
     protected static abstract class BaseHolderItemViewOnClickListener implements View.OnClickListener, View.OnLongClickListener {
+
+
         @Override
         public void onClick(View v) {
             BaseViewHolder holder = (BaseViewHolder) v.getTag();
             if (holder != null) {
-                int adapterPosition = holder.getAdapterPosition();
+                int adapterPosition = holder.getAdapterPositionExcludeHeadViewCount();
                 if (adapterPosition >= 0) {
                     onClick(holder, adapterPosition, v);
                 }
@@ -202,7 +203,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         public boolean onLongClick(View v) {
             BaseViewHolder holder = (BaseViewHolder) v.getTag();
             if (holder != null) {
-                int adapterPosition = holder.getAdapterPosition();
+                int adapterPosition = holder.getAdapterPositionExcludeHeadViewCount();
                 if (adapterPosition >= 0) {
                     onLongClick(holder, adapterPosition, v);
                 }

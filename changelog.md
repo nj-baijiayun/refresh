@@ -22,4 +22,9 @@ SNAPSHOT 包下的，可以先测试使用
     annotationProcessor 'com.nj.baijiayun:compiler:1.0.0-20190712.085646-3'
 
 ```
-    
+
+## 1.0.4
+修改一些类名
+
+## 1.0.5
+新增动态绑定类型   

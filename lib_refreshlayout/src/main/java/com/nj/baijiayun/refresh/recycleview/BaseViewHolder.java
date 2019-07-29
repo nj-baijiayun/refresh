@@ -17,6 +17,8 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.nj.baijiayun.refresh.recycleview.extend.RecyclerViewUtils;
+
 import java.lang.reflect.Field;
 
 /**
@@ -26,12 +28,28 @@ import java.lang.reflect.Field;
 public class BaseViewHolder<W> extends RecyclerView.ViewHolder {
 
 
+    private BaseRecyclerAdapter adapter;
     private final SparseArray<View> views;
-
     View convertView;
-
     private boolean needClickRootItemViewInHolder = false;
     private boolean needLongClickRootItemViewInHolder = false;
+    private RecyclerView recyclerView;
+
+    public void setRecyclerView(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView;
+    }
+
+    public RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public void setAdapter(BaseRecyclerAdapter adapter) {
+        this.adapter = adapter;
+    }
+
+    public BaseRecyclerAdapter getAdapter() {
+        return adapter;
+    }
 
     public void setNeedClickRootItemViewInHolder(boolean needClickRootItemViewInHolder) {
         this.needClickRootItemViewInHolder = needClickRootItemViewInHolder;
@@ -68,8 +86,6 @@ public class BaseViewHolder<W> extends RecyclerView.ViewHolder {
             e.printStackTrace();
         }
     }
-
-
 
 
     public View getConvertView() {
@@ -474,6 +490,11 @@ public class BaseViewHolder<W> extends RecyclerView.ViewHolder {
         }
         return (T) view;
     }
+//    getAdapterPosition
 
+
+    public int getAdapterPositionExcludeHeadViewCount() {
+        return RecyclerViewUtils.getAdapterPosition(recyclerView, this);
+    }
 
 }

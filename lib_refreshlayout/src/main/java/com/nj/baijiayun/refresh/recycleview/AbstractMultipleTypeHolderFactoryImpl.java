@@ -48,7 +48,6 @@ public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleT
     public BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int type) {
         Class<? extends BaseMultipleTypeViewHolder> aClass = typeHolderArray.get(type);
         try {
-            System.out.println("createViewHolder--->" + aClass);
             return aClass.getConstructor(ViewGroup.class).newInstance(parent);
         } catch (Exception e) {
             throw new NullPointerException("holder create fail,Please Check your LayoutId or Check Your Constructor Method" + e.getMessage());
