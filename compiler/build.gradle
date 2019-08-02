@@ -1,0 +1,20 @@
+apply plugin: 'java'
+apply from: 'upload.gradle'
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.squareup:javapoet:1.11.1'
+
+    implementation 'org.apache.commons:commons-lang3:3.5'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+    //auto-service可以帮我们把编译注解自动注册到项目中
+    //implementation 'com.google.auto.service:auto-service:1.0-rc3'
+//    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
+   implementation 'com.nj.baijiayun:annotations:1.0.2'
+    implementation files('libs/tools')
+//    implementation project(':annotations')
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8

@@ -1,0 +1,21 @@
+task dist(group: 'dist') {
+    tasks.dist.dependsOn("assemble")
+    doLast {
+        android.applicationVariants.all { variant ->
+
+            def distDir = file('../dist/')
+            if (!distDir.exists()) {
+                distDir.mkdirs()
+            }
+            variant.outputs.each {
+                output ->
+                    def outputFile = output.outputFile
+                    if(outputFile.name.endsWith(".apk"))
+                    {
+                        outputFile.renameTo(file('../dist/' + outputFile.name))
+                    }
+
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+apply plugin: 'com.android.library'
+apply from: 'upload.gradle'
+apply plugin: 'com.novoda.bintray-release'  // 新增
+
+android {
+
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion  19
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        aaptOptions.cruncherEnabled = false
+        aaptOptions.useNewCruncher = false
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        inner {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation 'junit:junit:4.12'
+    //noinspection GradleDependency
+    api 'com.android.support:support-annotations:25.1.0'
+    //noinspection GradleDependency,GradleCompatible
+    api 'com.android.support:support-v4:28.0.0'
+    //noinspection GradleDependency,GradleCompatible
+    api 'com.android.support:recyclerview-v7:28.0.0'
+    api 'com.android.support:design:28.0.0'
+
+}
+
+publish {
+    userOrg = 'njbaijiayun'        //bintray.com用户名
+    groupId = GROUP   //jcenter上的路径
+    artifactId = POM_ARTIFACT_ID   //项目名称
+    publishVersion = VERSION_NAME//版本号
+    desc = 'nj baijiayun inner refresh'//描述，自由填写
+}
+
+
+repositories {
+    mavenCentral()
+}
