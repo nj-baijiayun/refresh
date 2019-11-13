@@ -116,6 +116,16 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         this.notifyDataSetChanged();
     }
 
+    public void addHeaderView(View header, int index) {
+
+        if (header == null) {
+            throw new RuntimeException("header is null");
+        }
+
+        mHeaderViews.add(index, header);
+        this.notifyDataSetChanged();
+    }
+
     public void addFooterView(View footer) {
 
         if (footer == null) {
@@ -123,6 +133,16 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         }
 
         mFooterViews.add(footer);
+        this.notifyDataSetChanged();
+    }
+
+    public void addFooterView(View footer, int index) {
+
+        if (footer == null) {
+            throw new RuntimeException("footer is null");
+        }
+
+        mFooterViews.add(index, footer);
         this.notifyDataSetChanged();
     }
 
@@ -135,6 +155,10 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         return getFooterViewsCount() > 0 ? mFooterViews.get(0) : null;
     }
 
+    public View getFooterView(int index) {
+        return getFooterViewsCount() > index ? mFooterViews.get(index) : null;
+    }
+
     /**
      * 返回第一个HeaderView
      *
@@ -142,6 +166,10 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
      */
     public View getHeaderView() {
         return getHeaderViewsCount() > 0 ? mHeaderViews.get(0) : null;
+    }
+
+    public View getHeaderView(int index) {
+        return getHeaderViewsCount() > index ? mHeaderViews.get(index) : null;
     }
 
     public void removeHeaderView(View view) {
@@ -197,7 +225,6 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     }
 
 
-
     @Override
     public int getItemCount() {
         return getHeaderViewsCount() + getFooterViewsCount() + mInnerAdapter.getItemCount();
@@ -225,5 +252,13 @@ public class HeaderAndFooterRecyclerViewAdapter extends RecyclerView.Adapter<Rec
         public ViewHolder(View itemView) {
             super(itemView);
         }
+    }
+
+    public ArrayList<View> getHeaderViews() {
+        return mHeaderViews;
+    }
+
+    public ArrayList<View> getFooterViews() {
+        return mFooterViews;
     }
 }

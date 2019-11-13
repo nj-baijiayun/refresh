@@ -143,7 +143,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
         if (layoutManager.getOrientation() == LinearLayoutManager.VERTICAL) {
 
             int position = parent.getChildAdapterPosition(view) - headItemCount;
-            if (headItemCount != 0 && position == -headItemCount) {
+            if (headItemCount != 0 && position < 0) {
                 return;
             }
 
@@ -161,7 +161,7 @@ public class SpaceItemDecoration extends RecyclerView.ItemDecoration {
                 outRect.bottom = space;
             }
 
-            if (parent.getChildLayoutPosition(view) == 0) {
+            if (position == 0) {
 
                 if (includeEdge && includeFirst) {
 

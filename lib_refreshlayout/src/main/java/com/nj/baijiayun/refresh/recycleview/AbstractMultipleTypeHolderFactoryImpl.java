@@ -50,6 +50,7 @@ public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleT
         try {
             return aClass.getConstructor(ViewGroup.class).newInstance(parent);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new NullPointerException("holder create fail,Please Check your LayoutId or Check Your Constructor Method" + e.getMessage());
         }
     }

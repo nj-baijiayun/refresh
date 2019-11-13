@@ -19,13 +19,13 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.RefreshHeader;
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.RefreshState;
 import com.nj.baijiayun.refresh.constant.SpinnerStyle;
 import com.nj.baijiayun.refresh.internal.InternalAbstract;
 import com.nj.baijiayun.refresh.util.DensityUtil;
-import com.nj.baijiayun.R;
 
 import static com.nj.baijiayun.refresh.util.SmartUtil.getColor;
 

@@ -266,8 +266,6 @@ public class AdapterProcessor extends BaseProcessor {
             classBuilder.addMethod(getAdapterNoGroup);
 
         }
-
-
         TypeSpec adapterHelper = classBuilder
                 .addModifiers(Modifier.PUBLIC)
                 .addField(fieldSpec)

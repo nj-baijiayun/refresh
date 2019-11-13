@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.RefreshFooter;
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.RefreshState;
@@ -16,7 +17,6 @@ import com.nj.baijiayun.refresh.internal.ArrowDrawable;
 import com.nj.baijiayun.refresh.internal.InternalClassics;
 import com.nj.baijiayun.refresh.internal.ProgressDrawable;
 import com.nj.baijiayun.refresh.util.DensityUtil;
-import com.nj.baijiayun.R;
 
 /**
  * 经典上拉底部组件

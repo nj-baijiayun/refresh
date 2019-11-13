@@ -24,6 +24,7 @@ public class DesignUtil {
             }
         } catch (Throwable ignored) {
         }
+
     }
 
     private static void wrapperCoordinatorLayout(ViewGroup layout, final RefreshLayout refreshLayout, final CoordinatorLayoutListener listener) {

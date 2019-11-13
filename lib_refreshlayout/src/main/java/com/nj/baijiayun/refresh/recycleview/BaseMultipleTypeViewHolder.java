@@ -5,6 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nj.baijiayun.refresh.recycleview.helper.ContextGetHelper;
+
+import java.util.List;
+
 /**
  * @author chengang
  * @date 2019/4/23
@@ -18,9 +22,10 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
     public BaseMultipleTypeViewHolder(ViewGroup parent) {
         //临时占位,再替换
         super(parent);
-        this.context = parent.getContext();
-        setItemView(LayoutInflater.from(parent.getContext()).inflate(bindLayout(), parent, false));
+        this.context = ContextGetHelper.getActivityFromView(parent);
+        setItemView(LayoutInflater.from(context).inflate(bindLayout(), parent, false));
     }
+
     @Deprecated
     public BaseMultipleTypeRvAdapter getBaseMultipleTypeRvAdapter() {
         return (BaseMultipleTypeRvAdapter) getAdapter();
@@ -35,7 +40,6 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
     public abstract int bindLayout();
 
 
-
     /**
      * 绑定数据
      *
@@ -46,6 +50,10 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
     public abstract void bindData(T model, int position, BaseRecyclerAdapter adapter);
 
 
+    public void bindData(T model, int position, BaseRecyclerAdapter adapter, List<Object> payloads) {
+
+    }
+
     public int getClickPosition() {
         BaseViewHolder baseViewHolder = (BaseViewHolder) this.convertView.getTag();
         return baseViewHolder.getAdapterPositionExcludeHeadViewCount();
@@ -54,8 +62,6 @@ public abstract class BaseMultipleTypeViewHolder<T> extends BaseViewHolder {
     public T getClickModel() {
         return (T) getAdapter().getItem(getClickPosition());
     }
-
-
 
 
     /**

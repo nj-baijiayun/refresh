@@ -1,6 +1,6 @@
 package com.test.bean;
 
-import com.nj.baijiayun.refresh.recycleview.AbstractTreeItemAttr;
+import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 import com.nj.baijiayun.refresh.recycleview.ITreeModel;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ParentBean implements ITreeModel {
     private String title;
     private boolean isExpand;
-    private AbstractTreeItemAttr abstractTreeItem=new AbstractTreeItemAttr(this);
+    private TreeItemExpandAttr abstractTreeItem=new TreeItemExpandAttr(this);
 
 
     public String getTitle() {
@@ -45,7 +45,7 @@ public class ParentBean implements ITreeModel {
 
 
     @Override
-    public AbstractTreeItemAttr getTreeItemAttr() {
+    public TreeItemExpandAttr getTreeItemAttr() {
         return abstractTreeItem;
     }
 }

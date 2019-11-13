@@ -1,1 +1,1 @@
-include ':app', ':lib_refreshlayout',':annotations', ':compiler'
+include ':app', ':annotations', ':compiler', ':lib_refreshlayout'

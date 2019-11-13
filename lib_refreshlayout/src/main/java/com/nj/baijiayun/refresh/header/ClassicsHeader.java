@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.RefreshHeader;
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.RefreshState;
@@ -24,7 +25,6 @@ import com.nj.baijiayun.refresh.internal.ArrowDrawable;
 import com.nj.baijiayun.refresh.internal.InternalClassics;
 import com.nj.baijiayun.refresh.internal.ProgressDrawable;
 import com.nj.baijiayun.refresh.util.DensityUtil;
-import com.nj.baijiayun.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

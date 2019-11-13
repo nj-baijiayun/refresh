@@ -1,8 +1,4 @@
-package com.test.adapter;
-
-import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
-import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
-import com.nj.baijiayun.refresh.recycleview.ITreeModel;
+package com.nj.baijiayun.refresh.recycleview;
 
 import java.util.List;
 
@@ -29,7 +25,6 @@ public class ExpandHelper {
                 }
             }
         }
-
         baseRecyclerAdapter.notifyDataSetChanged();
 
     }

@@ -33,8 +33,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 import android.widget.TextView;
-
-import com.nj.baijiayun.R;
 import com.nj.baijiayun.refresh.api.DefaultRefreshFooterCreator;
 import com.nj.baijiayun.refresh.api.DefaultRefreshHeaderCreator;
 import com.nj.baijiayun.refresh.api.RefreshContent;

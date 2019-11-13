@@ -1,6 +1,6 @@
 package com.test.adapter;
 
-import com.nj.baijiayun.refresh.recycleview.AbstractTreeItemAttr;
+import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 import com.nj.baijiayun.refresh.recycleview.ITreeModel;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class ParentItem implements ITreeModel {
     }
 
     @Override
-    public AbstractTreeItemAttr getTreeItemAttr() {
+    public TreeItemExpandAttr getTreeItemAttr() {
         return null;
     }
 }

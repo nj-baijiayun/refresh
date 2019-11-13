@@ -1,6 +1,6 @@
 package com.test.bean;
 
-import com.nj.baijiayun.refresh.recycleview.AbstractTreeItemAttr;
+import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 import com.nj.baijiayun.refresh.recycleview.ITreeModel;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class AreaBean implements ITreeModel {
         this.title = title;
     }
 
-    private AbstractTreeItemAttr abstractTreeItem = new AbstractTreeItemAttr(this);
+    private TreeItemExpandAttr abstractTreeItem = new TreeItemExpandAttr(this);
 
     @Override
     public List<? extends ITreeModel> getChilds() {
@@ -33,7 +33,7 @@ public class AreaBean implements ITreeModel {
     }
 
     @Override
-    public AbstractTreeItemAttr getTreeItemAttr() {
+    public TreeItemExpandAttr getTreeItemAttr() {
         return abstractTreeItem;
     }
 }

@@ -16,5 +16,5 @@ public interface ITreeModel {
     List<? extends ITreeModel>getChilds();
 
 
-    AbstractTreeItemAttr getTreeItemAttr();
+    TreeItemExpandAttr getTreeItemAttr();
 }

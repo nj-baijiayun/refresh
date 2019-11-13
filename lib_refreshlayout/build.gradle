@@ -39,7 +39,7 @@ dependencies {
     })
     testImplementation 'junit:junit:4.12'
     //noinspection GradleDependency
-    api 'com.android.support:support-annotations:25.1.0'
+    implementation 'com.android.support:support-annotations:25.1.0'
     //noinspection GradleDependency,GradleCompatible
     api 'com.android.support:support-v4:28.0.0'
     //noinspection GradleDependency,GradleCompatible

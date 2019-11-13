@@ -1,5 +1,7 @@
 package com.test.holder;
 
+import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.view.ViewGroup;
 
 import com.baijiayun.R;
@@ -21,13 +23,14 @@ import com.test.bean.ProvinceBean;
 public class ProvinceHolder extends BaseMultipleTypeViewHolder<ProvinceBean> {
     public ProvinceHolder(ViewGroup parent) {
         super(parent);
-        getConvertView().setOnClickListener(v -> ExpandHelper.expandOrCollapseTree(getBaseMultipleTypeRvAdapter(),getClickPosition()));
+        getConvertView().setOnClickListener(v -> ExpandHelper.expandOrCollapseTree(getBaseMultipleTypeRvAdapter(), getClickPosition()));
     }
 
     @Override
     public int bindLayout() {
         return R.layout.item_province;
     }
+
     @Override
     public boolean isNeedClickRootItemViewInHolder() {
         return true;
@@ -36,6 +39,9 @@ public class ProvinceHolder extends BaseMultipleTypeViewHolder<ProvinceBean> {
     @Override
     public void bindData(ProvinceBean model, int position, BaseRecyclerAdapter adapter) {
         setText(R.id.tv, model.getTitle());
+
+        getConvertView().setBackgroundColor(model.isSelect()? Color.RED: ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
+
 
     }
 }

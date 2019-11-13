@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.OnTwoLevelListener;
 import com.nj.baijiayun.refresh.api.RefreshHeader;
 import com.nj.baijiayun.refresh.api.RefreshKernel;
@@ -16,7 +17,6 @@ import com.nj.baijiayun.refresh.constant.RefreshState;
 import com.nj.baijiayun.refresh.constant.SpinnerStyle;
 import com.nj.baijiayun.refresh.impl.RefreshHeaderWrapper;
 import com.nj.baijiayun.refresh.internal.InternalAbstract;
-import com.nj.baijiayun.R;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;

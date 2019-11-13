@@ -14,6 +14,7 @@ import com.test.holder.TestHolder2;
  * @package_name com.test.factory
  * @describe
  */
+
 public class ModelNobindFactory extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel> {
 
     @Override

@@ -10,13 +10,13 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.RefreshFooter;
 import com.nj.baijiayun.refresh.api.RefreshKernel;
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.RefreshState;
 import com.nj.baijiayun.refresh.internal.InternalAbstract;
 import com.nj.baijiayun.refresh.util.DensityUtil;
-import com.nj.baijiayun.R;
 
 import static android.view.View.MeasureSpec.EXACTLY;
 import static android.view.View.MeasureSpec.makeMeasureSpec;

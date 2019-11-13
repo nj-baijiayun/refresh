@@ -14,12 +14,12 @@ import android.support.v4.graphics.ColorUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.nj.baijiayun.refresh.R;
 import com.nj.baijiayun.refresh.api.RefreshFooter;
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.SpinnerStyle;
 import com.nj.baijiayun.refresh.internal.InternalAbstract;
 import com.nj.baijiayun.refresh.util.DensityUtil;
-import com.nj.baijiayun.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

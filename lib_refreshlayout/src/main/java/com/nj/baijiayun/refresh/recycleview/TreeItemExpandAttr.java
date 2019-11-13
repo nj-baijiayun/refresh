@@ -11,7 +11,7 @@ import java.util.List;
  * @package_name com.nj.baijiayun.refresh.recycleview
  * @describe
  */
-public class AbstractTreeItemAttr {
+public class TreeItemExpandAttr {
 
     private ITreeModel iTreeModel;
     /**
@@ -20,7 +20,7 @@ public class AbstractTreeItemAttr {
     private boolean isExpand;
 
 
-    public AbstractTreeItemAttr(ITreeModel iTreeModel) {
+    public TreeItemExpandAttr(ITreeModel iTreeModel) {
         this.iTreeModel = iTreeModel;
     }
 

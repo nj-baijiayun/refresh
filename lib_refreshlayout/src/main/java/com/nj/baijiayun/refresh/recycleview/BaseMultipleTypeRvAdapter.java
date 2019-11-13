@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 
 /**
  * @author chengang
@@ -52,6 +54,11 @@ public abstract class BaseMultipleTypeRvAdapter<T> extends BaseRecyclerAdapter<T
         ((BaseMultipleTypeViewHolder) holder).bindData(t, position, this);
     }
 
+    @Override
+    public void bindViewAndData(BaseViewHolder holder, T t, int position, List<Object> payloads) {
+        ((BaseMultipleTypeViewHolder) holder).bindData(t, position, this, payloads);
+
+    }
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {

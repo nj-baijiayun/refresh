@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
  * @package_name com.nj.baijiayun.auto_create.recycleview
  * @describe
  */
+@Deprecated
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AuthValidations {

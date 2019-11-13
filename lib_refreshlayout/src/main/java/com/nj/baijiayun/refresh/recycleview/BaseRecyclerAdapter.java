@@ -3,6 +3,7 @@ package com.nj.baijiayun.refresh.recycleview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
     private Context context;
     List<T> mItems;
     private int layoutId;
+    private Object mTag;
+    private SparseArray<Object> mKeyedTags;
+
     /**
      * holder 的item Click回调
      */
@@ -90,6 +94,14 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         bindViewAndData(holder, mItems.get(position), position);
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull BaseViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads);
+        } else {
+            bindViewAndData(holder, mItems.get(position), position, payloads);
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -184,6 +196,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
      */
     protected abstract void bindViewAndData(BaseViewHolder holder, T t, int position);
 
+    public  void bindViewAndData(BaseViewHolder holder, T t, int position, List<Object> payloads){
+
+    };
+
 
     protected static abstract class BaseHolderItemViewOnClickListener implements View.OnClickListener, View.OnLongClickListener {
 
@@ -235,6 +251,40 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
 
     public BaseRecyclerAdapter getThis() {
         return this;
+    }
+
+
+    public void setTag(final Object tag) {
+        mTag = tag;
+    }
+
+    public Object getTag() {
+        return mTag;
+    }
+
+    public Object getTag(int key) {
+        if (mKeyedTags != null) {
+            return mKeyedTags.get(key);
+        }
+        return null;
+    }
+
+    public void setTag(int key, final Object tag) {
+        // If the package id is 0x00 or 0x01, it's either an undefined package
+        // or a framework id
+//        if ((key >>> 24) < 2) {
+//            throw new IllegalArgumentException("The key must be an application-specific "
+//                    + "resource id.");
+//        }
+        setKeyedTag(key, tag);
+    }
+
+    private void setKeyedTag(int key, Object tag) {
+        if (mKeyedTags == null) {
+            mKeyedTags = new SparseArray<Object>(2);
+        }
+
+        mKeyedTags.put(key, tag);
     }
 
 

@@ -1,6 +1,6 @@
 package com.test.bean;
 
-import com.nj.baijiayun.refresh.recycleview.AbstractTreeItemAttr;
+import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 import com.nj.baijiayun.refresh.recycleview.ITreeModel;
 
 import java.util.List;
@@ -16,6 +16,16 @@ import java.util.List;
 public class ProvinceBean implements ITreeModel {
     private String title;
 
+    private boolean select=false;
+
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -30,7 +40,7 @@ public class ProvinceBean implements ITreeModel {
         this.cityBeans = cityBeans;
     }
 
-    private AbstractTreeItemAttr abstractTreeItem = new AbstractTreeItemAttr(this);
+    private TreeItemExpandAttr abstractTreeItem = new TreeItemExpandAttr(this);
 
 
     @Override
@@ -39,7 +49,7 @@ public class ProvinceBean implements ITreeModel {
     }
 
     @Override
-    public AbstractTreeItemAttr getTreeItemAttr() {
+    public TreeItemExpandAttr getTreeItemAttr() {
         return abstractTreeItem;
     }
 }
