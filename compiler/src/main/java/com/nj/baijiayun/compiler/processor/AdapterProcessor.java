@@ -1,5 +1,6 @@
 package com.nj.baijiayun.compiler.processor;
 
+import com.google.auto.service.AutoService;
 import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.annotations.ModelMultiTypeAdapterCreate;
 import com.nj.baijiayun.compiler.model.GroupProcessorModel;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
@@ -31,7 +33,7 @@ import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 
 import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_ADAPTER_CREATE;
-import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE;
+import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE;
 
 /**
  * @author chengang
@@ -41,7 +43,8 @@ import static com.nj.baijiayun.compiler.utils.Consts.ANNOTATION_TYPE_MODEL_TYPE_
  * @package_name com.nj.baijiayun.compiler.processor
  * @describe
  */
-@SupportedAnnotationTypes({ANNOTATION_TYPE_ADAPTER_CREATE, ANNOTATION_TYPE_MODEL_TYPE_HOLDER_CREATE})
+@AutoService(Processor.class)
+@SupportedAnnotationTypes({ANNOTATION_TYPE_MODEL_MULTIPLE_HOLDER_CREATE, ANNOTATION_TYPE_ADAPTER_CREATE})
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class AdapterProcessor extends BaseProcessor {
     private static final String RECYCLE_VIEW_PACKAGE = "com.nj.baijiayun.refresh.recycleview";
@@ -55,8 +58,13 @@ public class AdapterProcessor extends BaseProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnvironment) {
+        logger.info(">>> process, start... <<<");
+
         if (CollectionUtils.isNotEmpty(annotations)) {
+            logger.info(">>> CollectionUtils.isNotEmpty, start... <<<");
+
             Set<? extends Element> modelMultiTypeElements = roundEnvironment.getElementsAnnotatedWith(ModelMultiTypeAdapterCreate.class);
+            logger.info(">>> modelMultiTypeElements, start... <<<");
 
             Set<? extends Element> holderElements = roundEnvironment.getElementsAnnotatedWith(AdapterCreate.class);
             try {
@@ -75,9 +83,13 @@ public class AdapterProcessor extends BaseProcessor {
     }
 
     private void createCls() {
+        logger.info("createClsgroupMap" + groupMap.size());
+
         Map<String, String> adapterGroupMap = new HashMap<>();
         for (String key : groupMap.keySet()) {
             GroupProcessorModel groupModel = groupMap.get(key);
+            logger.info("createClsgroupMap-->" + groupModel.getGroup());
+
             String adapterClsName = createAdapterCls(createViewTypeFactoryCls(groupModel), groupModel.getGroup());
             adapterGroupMap.put(groupModel.getGroup(), adapterClsName + ".class");
         }
@@ -151,7 +163,7 @@ public class AdapterProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .returns(MULTI_TYPE_MODEL_FACTORY_INTERFACE)
                 .addAnnotation(Override.class)
-                .addStatement("return new $L()", factoryName).build();
+                .addStatement("return new $T()", ClassName.bestGuess(factoryName)).build();
 
         TypeSpec adapterClass = TypeSpec.classBuilder(clsName)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
@@ -180,31 +192,38 @@ public class AdapterProcessor extends BaseProcessor {
         TypeSpec.Builder classBuilder = TypeSpec.classBuilder(createFactoryCls)
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL);
         classBuilder.superclass(MULTI_TYPE_HOLDER_FACTORY_IMPL);
-        StringBuilder getViewTypeCodeStrBuilder = new StringBuilder();
-        //model多类型
-        for (int i = 0; i < groupProcessorModel.getMultipleModels().size(); i++) {
-            MultipleModel multipleModel = groupProcessorModel.getMultipleModels().get(i);
-            String multipleModelFactoryName = multipleModel.getMultipleModelFactoryName();
 
-            FieldSpec fieldSpec = FieldSpec.builder(ClassName.bestGuess(multipleModelFactoryName), String.format("factory%s", String.valueOf(i)), Modifier.PRIVATE, Modifier.FINAL)
-                    .initializer("new $L()", multipleModelFactoryName).build();
-            classBuilder.addField(fieldSpec);
-
-            getViewTypeCodeStrBuilder.append(String.format("if(object instanceof %s){\nreturn getHolderClassType(factory%s.getMultipleTypeHolderClass(((%s) object)));\n}\n", multipleModel.getMultipleModelName(), String.valueOf(i), multipleModel.getMultipleModelName()));
-
-
-        }
-
-        //重写getViewType 方法
         if (groupProcessorModel.getMultipleModels().size() > 0) {
-            MethodSpec methodSpec = MethodSpec.methodBuilder("getViewType")
-                    .addModifiers(Modifier.PUBLIC)
+
+            MethodSpec.Builder getViewTypeBuilder = MethodSpec.methodBuilder("getViewType");
+            getViewTypeBuilder.addModifiers(Modifier.PUBLIC)
                     .returns(int.class)
                     .addAnnotation(Override.class)
-                    .addParameter(Object.class, "object")
-                    .addStatement("$L return super.getViewType(object)", getViewTypeCodeStrBuilder.toString())
-                    .build();
-            classBuilder.addMethod(methodSpec);
+                    .addParameter(Object.class, "object");
+
+            //model多类型
+            for (int i = 0; i < groupProcessorModel.getMultipleModels().size(); i++) {
+                MultipleModel multipleModel = groupProcessorModel.getMultipleModels().get(i);
+                String multipleModelFactoryName = multipleModel.getMultipleModelFactoryName();
+
+                //构造factory对象
+                FieldSpec fieldSpec = FieldSpec.builder(ClassName.bestGuess(multipleModelFactoryName), "factory" + i, Modifier.PRIVATE, Modifier.FINAL)
+                        .initializer("new $T()", ClassName.bestGuess(multipleModelFactoryName)).build();
+                classBuilder.addField(fieldSpec);
+            }
+
+            for (int i = 0; i < groupProcessorModel.getMultipleModels().size(); i++) {
+                MultipleModel multipleModel = groupProcessorModel.getMultipleModels().get(i);
+                logger.info("--->" + multipleModel.getMultipleModelName());
+                getViewTypeBuilder.addStatement("if(object instanceof $T)\n return getHolderClassType($L.getMultipleTypeHolderClass(($T)object))",
+                        ClassName.bestGuess(multipleModel.getMultipleModelName()),
+                        "factory" + i,
+                        ClassName.bestGuess(multipleModel.getMultipleModelName()));
+
+            }
+            //重写getViewType 方法
+            getViewTypeBuilder.addStatement(CodeBlock.builder().add("return super.getViewType(object)").build());
+            classBuilder.addMethod(getViewTypeBuilder.build());
         }
 
 
@@ -215,14 +234,34 @@ public class AdapterProcessor extends BaseProcessor {
                 .addAnnotation(Override.class);
         for (int i = 0; i < groupProcessorModel.getNormalModels().size(); i++) {
             NormalModel normalModel = groupProcessorModel.getNormalModels().get(i);
-            initHashMapDataBuilder.addStatement("$L", CodeBlock.of("modelHolderMap.put($L.class,$L.class)", normalModel.getModelClsName(), normalModel.getHolderClsName()).toString());
+            //有可能一个group下没有默认的
+            if (normalModel.getModelClsName() != null && normalModel.getModelClsName().length() > 0) {
+                initHashMapDataBuilder.addStatement("$L"
+                        , CodeBlock.of("modelHolderMap.put($T.class,$T.class)"
+                                , ClassName.bestGuess(normalModel.getModelClsName())
+                                , ClassName.bestGuess(normalModel.getHolderClsName())));
+            }
         }
-        classBuilder.addMethod(initHashMapDataBuilder.build());
 
+        MethodSpec.Builder getHolderMapDefaultSizeBuilder = MethodSpec.methodBuilder("getHolderMapDefaultSize")
+                .addModifiers(Modifier.PUBLIC)
+                .returns(int.class)
+                .addAnnotation(Override.class)
+                .addStatement("return $L", groupProcessorModel.getNormalModels().size());
+
+        classBuilder.
+                addMethod(getHolderMapDefaultSizeBuilder.build())
+                .addMethod(initHashMapDataBuilder.build());
         writeToFile(JavaFile.builder(PACKAGE_NAME, classBuilder.build()).build());
         return PACKAGE_NAME + "." + createFactoryCls;
 
     }
+
+
+    /**
+     * test---> A B C
+     * ---> D
+     */
 
 
     private void createAdapterHelper(Map<String, String> adapterGroupMap) {
@@ -233,7 +272,8 @@ public class AdapterProcessor extends BaseProcessor {
             mapCode.append(String.format("map.put(\"%s\", %s);\n", key, adapterGroupMap.get(key)));
         }
 
-        FieldSpec fieldSpec = FieldSpec.builder(Map.class, "map", Modifier.STATIC, Modifier.FINAL).initializer("new java.util.HashMap()", "").build();
+
+        FieldSpec fieldSpec = FieldSpec.builder(Map.class, "map", Modifier.STATIC, Modifier.FINAL).initializer("new java.util.HashMap<>()", "").build();
 
 
         String methodCode = "\n" +
@@ -270,7 +310,6 @@ public class AdapterProcessor extends BaseProcessor {
                 .addModifiers(Modifier.PUBLIC)
                 .addField(fieldSpec)
                 .addMethod(getAdapter)
-
                 .addStaticBlock(CodeBlock.of("$L", mapCode))
                 .build();
 

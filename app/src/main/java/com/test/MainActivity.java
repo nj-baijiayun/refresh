@@ -10,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baijiayun.R;
-import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
@@ -56,13 +55,16 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-        demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
+//        demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
 
 //        addPCA();
 
         demoAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseViewHolder holder, int position, View view, Object item) {
+
+
+
                 if (view.getId() == R.id.tv1) {
                     Toast.makeText(MainActivity.this, "inner" + position, Toast.LENGTH_SHORT).show();
                     return;

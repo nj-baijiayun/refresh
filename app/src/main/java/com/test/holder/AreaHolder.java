@@ -16,11 +16,20 @@ import com.test.bean.AreaBean;
  * @package_name com.test.holder
  * @describe
  */
-@AdapterCreate
+@AdapterCreate(group ={"TEST"})
 public class AreaHolder extends BaseMultipleTypeViewHolder<AreaBean> {
     public AreaHolder(ViewGroup parent) {
         super(parent);
+//        setOnClickListener(R.id.xx, new View.OnClickListener() {
+//          @Override
+//          public void onClick(View v) {
+//             // itemInnerViewClickCallBack(v);
+//              Activity activityFromView = ContextGetHelper.getActivityFromView(v);
+//
+//          }
+//      });
     }
+
 
     @Override
     public int bindLayout() {
@@ -30,6 +39,11 @@ public class AreaHolder extends BaseMultipleTypeViewHolder<AreaBean> {
     @Override
     public void bindData(AreaBean model, int position, BaseRecyclerAdapter adapter) {
             setText(R.id.tv,model.getTitle());
+    }
+
+    @Override
+    public boolean isNeedClickRootItemViewInHolder() {
+        return true;
     }
 }
 

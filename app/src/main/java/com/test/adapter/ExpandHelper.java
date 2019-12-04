@@ -36,9 +36,15 @@ public class ExpandHelper {
 
 
     public static void expandOrCollapseTree(BaseRecyclerAdapter baseRecyclerAdapter, int position) {
+        if (position < 0) {
+            return;
+        }
         //获取当前点击的条目
         ITreeModel treeAdapterItem = (ITreeModel) baseRecyclerAdapter.getItems().get(position);
         TreeItemExpandAttr treeItemAttr = treeAdapterItem.getTreeItemAttr();
+        if (treeItemAttr == null) {
+            return;
+        }
         //判断点击的条目有没有下一级
         if (!treeItemAttr.isParent()) {
             return;
@@ -49,8 +55,8 @@ public class ExpandHelper {
             //获取所有的子数据.
             List allChilds = treeItemAttr.getAllChilds();
             baseRecyclerAdapter.getItems().removeAll(allChilds);
-            baseRecyclerAdapter.notifyItemRangeRemoved(position+1, allChilds.size());
-            baseRecyclerAdapter.notifyItemChanged(position+1, allChilds.size());
+            baseRecyclerAdapter.notifyItemRangeRemoved(position + 1, allChilds.size());
+            baseRecyclerAdapter.notifyItemChanged(position + 1, allChilds.size());
             treeItemAttr.onCollapse();
             //告诉item,折叠
         } else {

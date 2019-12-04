@@ -17,7 +17,7 @@ import com.test.bean.CityBean;
  * @package_name com.test.holder
  * @describe
  */
-@AdapterCreate
+@AdapterCreate(group ={"TEST"})
 public class CityHolder extends BaseMultipleTypeViewHolder<CityBean> {
     public CityHolder(ViewGroup parent) {
         super(parent);

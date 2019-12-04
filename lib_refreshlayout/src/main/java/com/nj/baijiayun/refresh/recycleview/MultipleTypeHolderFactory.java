@@ -1,5 +1,6 @@
 package com.nj.baijiayun.refresh.recycleview;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 /**
@@ -16,7 +17,7 @@ public interface MultipleTypeHolderFactory {
      * @param viewType 类型id
      * @return  ViewHolder
      */
-    BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int viewType);
+    RecyclerView.ViewHolder createViewHolder(ViewGroup parent, int viewType);
 
     /**
      * 根据model获得类型

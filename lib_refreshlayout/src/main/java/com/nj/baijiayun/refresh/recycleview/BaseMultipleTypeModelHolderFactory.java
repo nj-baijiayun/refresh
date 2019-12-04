@@ -1,5 +1,7 @@
 package com.nj.baijiayun.refresh.recycleview;
 
+import android.support.v7.widget.RecyclerView;
+
 /**
  * @author chengang
  * @date 2019-07-16
@@ -13,7 +15,7 @@ package com.nj.baijiayun.refresh.recycleview;
 public abstract class BaseMultipleTypeModelHolderFactory<T> {
 
 
-    public abstract Class<? extends BaseMultipleTypeViewHolder> getMultipleTypeHolderClass(T model);
+    public abstract Class<? extends RecyclerView.ViewHolder> getMultipleTypeHolderClass(T model);
 
 
 }

@@ -19,6 +19,8 @@ android {
                 arguments = [moduleName: "demo"]
             }
         }
+        vectorDrawables.useSupportLibrary = true
+
     }
     buildTypes {
         release {
@@ -52,7 +54,8 @@ dependencies {
     annotationProcessor project(':compiler')
 //    implementation 'com.nj.baijiayun:annotations:1.0.0'
 //    annotationProcessor 'com.nj.baijiayun:compiler:1.0.1'
-//
+//    implementation 'com.caverock:androidsvg-aar:1.3'
+    implementation 'com.caverock:androidsvg-aar:1.3'
 
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

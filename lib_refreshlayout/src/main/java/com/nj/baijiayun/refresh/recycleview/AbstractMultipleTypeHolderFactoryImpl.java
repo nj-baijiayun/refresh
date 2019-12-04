@@ -1,5 +1,6 @@
 package com.nj.baijiayun.refresh.recycleview;
 
+import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -16,15 +17,24 @@ import java.util.Map;
  */
 public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleTypeHolderFactory {
 
-    private SparseArray<Class<? extends BaseMultipleTypeViewHolder>> typeHolderArray = new SparseArray<>();
+    /**
+     * 存type  holder 对应关系
+     */
+    private SparseArray<Class<? extends RecyclerView.ViewHolder>> typeHolderArray = new SparseArray<>();
 
-    public Map<Class, Class<? extends BaseMultipleTypeViewHolder>> modelHolderMap;
+    /**
+     * bean clsss 对于的holder
+     */
 
-    public int getHolderClassType(Class<? extends BaseMultipleTypeViewHolder> cls) {
+    public Map<Class, Class<? extends RecyclerView.ViewHolder>> modelHolderMap;
+
+    /**
+     * 根据holder的class取 type
+     */
+    public int getHolderClassType(Class<? extends RecyclerView.ViewHolder> cls) {
         for (int i = 0; i < typeHolderArray.size(); i++) {
-            int key = typeHolderArray.keyAt(i);
-            if (typeHolderArray.get(key).equals(cls)) {
-                return key;
+            if (typeHolderArray.get(typeHolderArray.keyAt(i)).equals(cls)) {
+                return typeHolderArray.keyAt(i);
             }
         }
         int size = typeHolderArray.size();
@@ -34,19 +44,19 @@ public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleT
 
     @Override
     public int getViewType(Object object) {
-
-        Class<? extends BaseMultipleTypeViewHolder> aClass = getModelHolderMap().get(object.getClass());
+        //取到model的类 取出对应的holder
+        Class<? extends RecyclerView.ViewHolder> aClass = getModelHolderMap().get(object.getClass());
         if (aClass == null) {
             throw new NullPointerException(object.getClass() + "not bind holder");
         }
-
         return getHolderClassType(aClass);
     }
 
 
     @Override
-    public BaseMultipleTypeViewHolder createViewHolder(ViewGroup parent, int type) {
-        Class<? extends BaseMultipleTypeViewHolder> aClass = typeHolderArray.get(type);
+    public RecyclerView.ViewHolder createViewHolder(ViewGroup parent, int type) {
+        //取出holder class
+        Class<? extends RecyclerView.ViewHolder> aClass = typeHolderArray.get(type);
         try {
             return aClass.getConstructor(ViewGroup.class).newInstance(parent);
         } catch (Exception e) {
@@ -55,13 +65,16 @@ public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleT
         }
     }
 
-    public Map<Class, Class<? extends BaseMultipleTypeViewHolder>> getModelHolderMap() {
+
+    public Map<Class, Class<? extends RecyclerView.ViewHolder>> getModelHolderMap() {
         if (modelHolderMap == null) {
-            modelHolderMap = new HashMap<>();
+            modelHolderMap = new HashMap<>(getHolderMapDefaultSize() > 0 ? getHolderMapDefaultSize() : 1 << 2);
             initModelHolderMapData();
         }
         return modelHolderMap;
     }
+
+    public abstract int getHolderMapDefaultSize();
 
     public abstract void initModelHolderMapData();
 }

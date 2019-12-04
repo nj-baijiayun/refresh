@@ -36,7 +36,7 @@ public abstract class BaseMultipleTypeRvAdapter<T> extends BaseRecyclerAdapter<T
     }
 
     private BaseMultipleTypeViewHolder factoryCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseMultipleTypeViewHolder viewHolder = mFactory.createViewHolder(parent, viewType);
+        BaseMultipleTypeViewHolder viewHolder = (BaseMultipleTypeViewHolder) mFactory.createViewHolder(parent, viewType);
         if (viewHolder == null) {
             throw new NullPointerException("viewHolder is Null,Please Check viewHolder bind viewType is " + viewType);
         }
