@@ -1,7 +1,7 @@
 package com.test.bean;
 
-import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 import com.nj.baijiayun.refresh.recycleview.ITreeModel;
+import com.nj.baijiayun.refresh.recycleview.TreeItemExpandAttr;
 
 import java.util.List;
 

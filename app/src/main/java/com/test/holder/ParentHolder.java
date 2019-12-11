@@ -4,9 +4,10 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.baijiayun.R;
+import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
-import com.test.adapter.ExpandHelper;
+import com.nj.baijiayun.refresh.recycleview.ExpandHelper;
 import com.test.bean.ParentBean;
 
 /**
@@ -17,6 +18,7 @@ import com.test.bean.ParentBean;
  * @package_name com.test.holder
  * @describe
  */
+@AdapterCreate
 public class ParentHolder extends BaseMultipleTypeViewHolder<ParentBean> {
     public ParentHolder(ViewGroup parent) {
         super(parent);

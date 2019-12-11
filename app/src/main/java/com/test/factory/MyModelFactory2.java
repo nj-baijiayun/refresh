@@ -1,6 +1,6 @@
 package com.test.factory;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.nj.baijiayun.annotations.ModelMultiTypeAdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelHolderFactory;

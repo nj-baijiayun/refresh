@@ -1,7 +1,7 @@
 package com.nj.baijiayun.refresh.recycleview;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import java.util.List;

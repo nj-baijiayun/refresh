@@ -1,6 +1,6 @@
 package com.nj.baijiayun.refresh.recycleview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author chengang

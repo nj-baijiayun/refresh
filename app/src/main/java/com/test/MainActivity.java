@@ -1,25 +1,25 @@
 package com.test;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baijiayun.R;
+import com.nj.baijiayun.processor.DemoAdapterHelper;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeRvAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
 import com.nj.baijiayun.refresh.recycleview.BaseViewHolder;
+import com.nj.baijiayun.refresh.recycleview.ExpandHelper;
 import com.nj.baijiayun.refresh.recycleview.extend.HeaderAndFooterRecyclerViewAdapter;
 import com.nj.baijiayun.refresh.smartrv.INxOnRefreshListener;
 import com.nj.baijiayun.refresh.smartrv.INxRefreshLayout;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshConfig;
 import com.nj.baijiayun.refresh.smartrv.NxRefreshView;
 import com.nj.baijiayun.refresh.smartrv.strategy.DefaultExtra;
-import com.test.adapter.ExpandHelper;
 import com.test.bean.AreaBean;
 import com.test.bean.CityBean;
 import com.test.bean.DemoBean;
@@ -27,7 +27,6 @@ import com.test.bean.DemoBean2;
 import com.test.bean.MultipleTypeModel;
 import com.test.bean.ProvinceBean;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         nxRefreshView = findViewById(R.id.nxRv);
         nxRefreshView.setEnableRefresh(true);
         nxRefreshView.setEnableLoadMore(true);
-//        demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
+        demoAdapter = DemoAdapterHelper.getDefaultAdapter(this);
 
 //        addPCA();
 
@@ -88,16 +87,12 @@ public class MainActivity extends AppCompatActivity {
 
         nxRefreshView.setAdapter(headerAndFooterRecyclerViewAdapter);
 
-
+        addPCA();
         addNormalData();
         demoAdapter.addAll(datas);
-//        RecyclerViewUtils.setHeaderView(nxRefreshView.getRecyclerView(), new Button(this));
 
 
         NxRefreshConfig.init(new DefaultExtra());
-
-        //可选 不设置 默认是LinearLayoutManager Vertical
-//        nxRefreshView.setLayoutManager(new GridLayoutManager(this, 4));
         nxRefreshView.setOnRefreshLoadMoreListener(new INxOnRefreshListener() {
 
             @Override
@@ -224,22 +219,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void add(View view) {
 
-
-        LinearLayoutManager layoutManager = (LinearLayoutManager) getRv().getLayoutManager();
-
-        //获取可视的第一个view
-        View topView = layoutManager.getChildAt(0);
-        //获取与该view的顶部的偏移量
-        int offset = topView.getTop();
-        int firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition();
-
-        ProvinceBean item = new ProvinceBean();
-        i++;
-        item.setTitle(MessageFormat.format("{0}省",i));
-
-        demoAdapter.getItems().add(0, item);
-        demoAdapter.notifyItemChanged(0,firstVisibleItemPosition+1);
-        layoutManager.scrollToPositionWithOffset(firstVisibleItemPosition, offset);
 
     }
 }

@@ -1,6 +1,6 @@
 package com.nj.baijiayun.refresh.listener;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.nj.baijiayun.refresh.api.RefreshFooter;
 import com.nj.baijiayun.refresh.api.RefreshHeader;

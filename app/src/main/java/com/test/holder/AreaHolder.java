@@ -16,7 +16,7 @@ import com.test.bean.AreaBean;
  * @package_name com.test.holder
  * @describe
  */
-@AdapterCreate(group ={"TEST"})
+@AdapterCreate
 public class AreaHolder extends BaseMultipleTypeViewHolder<AreaBean> {
     public AreaHolder(ViewGroup parent) {
         super(parent);

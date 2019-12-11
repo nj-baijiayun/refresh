@@ -1,7 +1,7 @@
 package com.nj.baijiayun.refresh.listener;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.nj.baijiayun.refresh.api.RefreshLayout;
 import com.nj.baijiayun.refresh.constant.RefreshState;

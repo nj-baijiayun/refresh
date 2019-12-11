@@ -16,7 +16,7 @@ import com.test.bean.ChildBean;
  * @package_name com.test.holder
  * @describe
  */
-@AdapterCreate(group ={"TEST"})
+@AdapterCreate
 public class ChildHolder extends BaseMultipleTypeViewHolder<ChildBean> {
     public ChildHolder(ViewGroup parent) {
         super(parent);

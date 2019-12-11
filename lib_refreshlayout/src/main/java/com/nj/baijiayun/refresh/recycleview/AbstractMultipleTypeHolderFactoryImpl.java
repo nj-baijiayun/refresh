@@ -1,6 +1,6 @@
 package com.nj.baijiayun.refresh.recycleview;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -47,7 +47,7 @@ public abstract class AbstractMultipleTypeHolderFactoryImpl implements MultipleT
         //取到model的类 取出对应的holder
         Class<? extends RecyclerView.ViewHolder> aClass = getModelHolderMap().get(object.getClass());
         if (aClass == null) {
-            throw new NullPointerException(object.getClass() + "not bind holder");
+            throw new NullPointerException(object.getClass() + " not bind holder");
         }
         return getHolderClassType(aClass);
     }

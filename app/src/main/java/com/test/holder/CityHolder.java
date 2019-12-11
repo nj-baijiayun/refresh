@@ -6,7 +6,7 @@ import com.baijiayun.R;
 import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
-import com.test.adapter.ExpandHelper;
+import com.nj.baijiayun.refresh.recycleview.ExpandHelper;
 import com.test.bean.CityBean;
 
 /**
@@ -17,7 +17,7 @@ import com.test.bean.CityBean;
  * @package_name com.test.holder
  * @describe
  */
-@AdapterCreate(group ={"TEST"})
+@AdapterCreate
 public class CityHolder extends BaseMultipleTypeViewHolder<CityBean> {
     public CityHolder(ViewGroup parent) {
         super(parent);

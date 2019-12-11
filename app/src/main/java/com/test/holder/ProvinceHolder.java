@@ -1,13 +1,14 @@
 package com.test.holder;
 
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.view.ViewGroup;
 
 import com.baijiayun.R;
+import com.nj.baijiayun.annotations.AdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.nj.baijiayun.refresh.recycleview.BaseRecyclerAdapter;
-import com.test.adapter.ExpandHelper;
+import com.nj.baijiayun.refresh.recycleview.ExpandHelper;
 import com.test.bean.ProvinceBean;
 
 /**
@@ -18,6 +19,7 @@ import com.test.bean.ProvinceBean;
  * @package_name com.test.holder
  * @describe
  */
+@AdapterCreate
 public class ProvinceHolder extends BaseMultipleTypeViewHolder<ProvinceBean> {
     public ProvinceHolder(ViewGroup parent) {
         super(parent);

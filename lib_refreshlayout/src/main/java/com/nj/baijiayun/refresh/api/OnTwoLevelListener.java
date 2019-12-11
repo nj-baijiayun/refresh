@@ -1,6 +1,6 @@
 package com.nj.baijiayun.refresh.api;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * 二级刷新监听器

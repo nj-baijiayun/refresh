@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.TextView;
 import com.nj.baijiayun.refresh.recycleview.extend.RecyclerViewUtils;
 
 import java.lang.reflect.Field;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by chengang on 2018/6/8.

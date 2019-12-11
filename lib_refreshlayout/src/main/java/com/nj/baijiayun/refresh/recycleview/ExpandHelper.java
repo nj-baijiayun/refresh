@@ -38,7 +38,7 @@ public class ExpandHelper {
         ITreeModel treeAdapterItem = (ITreeModel) baseRecyclerAdapter.getItems().get(position);
         TreeItemExpandAttr treeItemAttr = treeAdapterItem.getTreeItemAttr();
         //判断点击的条目有没有下一级
-        if (!treeItemAttr.isParent()) {
+        if (treeItemAttr == null || !treeItemAttr.isParent()) {
             return;
         }
         //判断是否展开

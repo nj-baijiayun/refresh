@@ -1,5 +1,6 @@
 package com.test.factory;
 
+import com.nj.baijiayun.annotations.ModelMultiTypeAdapterCreate;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeModelHolderFactory;
 import com.nj.baijiayun.refresh.recycleview.BaseMultipleTypeViewHolder;
 import com.test.bean.MultipleTypeModel;
@@ -15,6 +16,7 @@ import com.test.holder.TestHolder2;
  * @describe
  */
 
+@ModelMultiTypeAdapterCreate
 public class ModelNobindFactory extends BaseMultipleTypeModelHolderFactory<MultipleTypeModel> {
 
     @Override

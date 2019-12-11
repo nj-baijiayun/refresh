@@ -1,6 +1,6 @@
 package com.nj.baijiayun.refresh.smartrv.strategy;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import com.nj.baijiayun.refresh.SmartRefreshLayout;
