@@ -12,6 +12,7 @@ dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc2'
 //    implementation 'com.nj.baijiayun:annotations:1.0.0-20190712.084728-1'
     implementation 'com.nj.baijiayun:annotations:1.0.2'
+    implementation project(':annotations')
     implementation files('libs/tools')
 //    implementation project(':annotations')
 }
